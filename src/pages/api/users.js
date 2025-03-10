@@ -13,7 +13,7 @@ async function handler(req, res){
             res.status(500).json({ message:"Data berhasil gagal didapat" })
         }
     } else if (req.method === 'POST'){
-        const { name, email, password, role='alumni' } = req.body;
+        const { name, email, password, role='users' } = req.body;
         try {
             const [existingUser] = await connect.query('SELECT * FROM users WHERE email = ?', [email]);
             if (existingUser.length > 0) {
