@@ -19,7 +19,7 @@ export default function Home() {
       { (count) ? 
       <Loading />
       :
-      <div className="flex justify-center items-center w-screen h-screen">
+      <div className="flex justify-center items-center w-screen h-screen shadow">
         <h1 className='text-7xl uppercase font-extrabold bg-gradient-to-l from-cyan-500 to-green-500 text-transparent bg-clip-text animate-spin'>Selamat Ngoding</h1>
       </div>
       }
