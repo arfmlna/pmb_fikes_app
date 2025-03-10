@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const { email, password } = req.body;
 
         try {
-        const [users] = await connect.query('SELECT * FROM users_api WHERE email = ?', [email]);
+        const [users] = await connect.query('SELECT * FROM users WHERE email = ?', [email]);
         const user = users[0];
 
         if (!user) {
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-        res.status(200).json({ message: 'Login berhasil!', token });
+        res.status(200).json({ message: 'Login berhasil!', token, id: user.id, role: user.role });
         } catch (error) {
         res.status(500).json({ message: 'Terjadi kesalahan.' });
         }
