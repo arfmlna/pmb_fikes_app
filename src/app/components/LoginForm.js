@@ -21,9 +21,15 @@ export default function LoginForm() {
 
             console.log("Login successful:", response.data);
             localStorage.setItem("token", response.data.token)
+            localStorage.setItem("userId", response.data.id)
+            localStorage.setItem("role", response.data.role)
             
             // Handle successful login (e.g., redirect or store token in localStorage)
-            router.replace("/dashboard")
+            if (response.data.role === "users") {
+                router.replace("/")
+            } else {
+                router.replace("/dashboard")
+            }
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");
         } finally {
