@@ -50,12 +50,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
             <td>Login</td>
             <td><code>POST /api/login</code></td>
         </tr>
-        <!-- <tr>
+        <tr>
             <td>Logout</td>
             <td><code>POST /api/logout</code></td>
-        </tr> -->
+        </tr>
         <tr>
-            <td colspan="2" style="text-align: center"><b>Users</b></td>
+            <td colspan="2" style="text-align: center"><b>Users for admin</b></td>
         </tr>
         <tr>
             <td>Get Users</td>
@@ -76,6 +76,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
         <tr>
             <td>Delete Users</td>
             <td><code>DELETE /api/users/{id}</code></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><b>Users</b></td>
+        </tr>
+        <tr>
+            <td>reset password</td>
+            <td><code>GET /api/resetpass</code></td>
+        </tr>
+        <tr>
+            <td>change email</td>
+            <td><code>GET /api/change_email</code></td>
         </tr>
     </table>
 </html>
