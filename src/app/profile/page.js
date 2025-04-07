@@ -1,21 +1,31 @@
-'use client'
+"use client"
+
+import { useRouter } from 'next/navigation';
 import EditUser from '../components/EditUser';
+import { useLoading } from '../components/Loading/HandleLoading';
+import Loading from '../components/Loading/Loading';
 import NavbarComponent from '../components/Navbar';
-import RegisterForm from '../components/RegisterForm';
-// import { metadata } from "./layout";
+import { useEffect } from 'react';
 
 export default function Profile() {
-  // meta data
-  // metadata.title = "webku | home"
+  const router = useRouter()
 
-  // load
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      router.push('/login')
+    }
+  }, [router])
+
+  const isLoading = useLoading()
   return (
     <>
-      <NavbarComponent/>
-      <>
-        <h1 className='flex justify-center items-center h-screen w-full text-white'>Profile</h1>
-        <EditUser/>
-      </>
+      {isLoading ? (<Loading/>) : (
+        <>
+          <NavbarComponent/>
+          <h1 className='flex justify-center items-center h-screen w-full text-white'>Profile</h1>
+          <EditUser/>
+        </>
+      )}
     </>
   );
 }

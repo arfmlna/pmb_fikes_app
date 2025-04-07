@@ -1,21 +1,31 @@
 'use client'
-import {useState} from 'react'
-import Loading from "./components/loading/Loading";
-import LoginForm from './components/LoginForm';
 import NavbarComponent from './components/Navbar';
-// import { metadata } from "./layout";
+import Loading from './components/Loading/Loading';
+import { useLoading } from './components/Loading/HandleLoading';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  // meta data
-  // metadata.title = "webku | home"
+  const router = useRouter()
 
-  // load
+  useEffect(() => {
+    if (localStorage.getItem('role') !== 'users') {
+      router.push('/dashboard')
+    }
+    if (!localStorage.getItem('token')) {
+      router.push('/login')
+    }
+  }, [router])
+
+  const isLoading = useLoading();
   return (
     <>
-      <NavbarComponent/>
-      <>
-        <h1 className='flex justify-center items-center h-screen w-full text-white'>Home</h1>
-      </>
+      {isLoading ? (<Loading/>) : (
+        <>
+          <NavbarComponent/>
+            <h1 className='flex justify-center items-center h-screen w-full text-white'>Home</h1>
+        </>
+      )}
     </>
   );
 }

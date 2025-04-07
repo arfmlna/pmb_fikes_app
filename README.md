@@ -88,5 +88,16 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
             <td>change email</td>
             <td><code>GET /api/change_email</code></td>
         </tr>
+        <tr>
+            <td colspan="2" style="text-align: center"><b>login logs</b></td>
+        </tr>
+        <tr>
+            <td>logs all users</td>
+            <td><code>GET /api/logs</code></td>
+        </tr>
+        <tr>
+            <td>change email</td>
+            <td><code>GET /api/logs/{id_user}</code></td>
+        </tr>
     </table>
 </html>

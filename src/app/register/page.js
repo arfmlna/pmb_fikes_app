@@ -1,10 +1,10 @@
-'use client'
+// 'use client'
 import RegisterForm from '../components/RegisterForm';
-// import { metadata } from "./layout";
+// import { metadata } from "../layout";
 
 export default function Register() {
   // meta data
-  // metadata.title = "webku | home"
+  // metadata.title = "pmb fikes | Register"
 
   // load
   return (

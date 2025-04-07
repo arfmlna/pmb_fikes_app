@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Alert } from "./Alert";
+import Link from "next/link";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -10,6 +12,16 @@ export default function LoginForm() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter()
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            if (localStorage.getItem('role') == 'admin') {
+                router.push('/dashboard')
+            } else if(localStorage.getItem('role') == 'users'){
+                router.push('/')
+            }
+        }
+    })
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +36,7 @@ export default function LoginForm() {
             localStorage.setItem("userId", response.data.id)
             localStorage.setItem("role", response.data.role)
             
+            Alert('Info', 'Login Successful', 'success', 'OK!')
             // Handle successful login (e.g., redirect or store token in localStorage)
             if (response.data.role === "users") {
                 router.replace("/")
@@ -32,6 +45,7 @@ export default function LoginForm() {
             }
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");
+            Alert('Info', 'Login Failed', 'error', 'OK!')
         } finally {
             setLoading(false);
         }
@@ -67,6 +81,8 @@ export default function LoginForm() {
                     />
                 </div>
 
+                <Link className="text-black" href={"/register"}>Belum punya akun?</Link>
+                
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
                 <div className="flex items-center justify-center mt-4">

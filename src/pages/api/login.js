@@ -21,6 +21,11 @@ export default async function handler(req, res) {
 
         const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+        await connect.query('INSERT INTO login_logs (user_id, login_time) VALUES (?, ?)', [
+            user.id,
+            new Date()
+        ]);
+
         res.status(200).json({ message: 'Login berhasil!', token, id: user.id, role: user.role });
         } catch (error) {
         res.status(500).json({ message: 'Terjadi kesalahan.' });

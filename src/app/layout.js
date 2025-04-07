@@ -13,8 +13,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "webku",
-  description: "web aplikasiku",
+  title: "PMB Fikes",
+  description: "Web PMB Fikes App",
 };
 
 export default function RootLayout({ children }) {

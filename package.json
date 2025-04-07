@@ -17,6 +17,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.5.0",
+    "sass": "^1.86.0",
+    "sweetalert2": "^11.17.2",
+    "typeit": "^8.8.7",
     "typeit-react": "^2.7.3"
   },
   "devDependencies": {

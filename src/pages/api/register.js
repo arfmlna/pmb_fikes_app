@@ -12,7 +12,14 @@ export default async function handler(req, res) {
                 return res.status(400).json({ message: 'Email sudah digunakan!' });
             }
             const hashedPassword = await bcrypt.hash(password, 10);
-            const [result] = await connect.query('INSERT INTO users (name, email, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', [name, email, hashedPassword, role, now, now]);    
+            const [result] = await connect.query('INSERT INTO users (name, email, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', [name, email, hashedPassword, role, now, now]);
+            
+            // const userId = result.insertId;
+            // await connect.query('INSERT INTO login_logs (user_id, login_time) VALUES (?, ?)', [
+            //     userId,
+            //     now
+            // ]);
+
             res.status(201).json({ message: 'Pengguna berhasil didaftarkan!', data: result });
         } catch (error) {
             res.status(500).json({ error: 'Terjadi kesalahan saat mendaftarkan pengguna.' });
