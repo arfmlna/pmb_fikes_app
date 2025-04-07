@@ -96,7 +96,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
             <td><code>GET /api/logs</code></td>
         </tr>
         <tr>
-            <td>change email</td>
+            <td>logs users specifict</td>
             <td><code>GET /api/logs/{id_user}</code></td>
         </tr>
     </table>
