@@ -1,16 +1,12 @@
-import localFont from "next/font/local";
 import "./globals.css";
+import {Jost} from "next/font/google"
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const jostVariable = Jost({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: "normal",
+  display: "swap",
+  subsets: ["latin"]
+})
 
 export const metadata = {
   title: "PMB Fikes",
@@ -20,8 +16,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="./fikesicon.svg" sizes="any" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
+        className={`${jostVariable.className} antialiased`}
       >
         {children}
       </body>

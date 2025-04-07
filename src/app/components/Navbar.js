@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import icon from '../fikesicon.png'
 import { Alert } from "./Alert";
@@ -43,6 +43,7 @@ export default function NavbarComponent() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [role, setRole] = useState(null); // State for role
     const router = useRouter();
+    const currentRoute = usePathname() 
 
     // Fetch localStorage values after rendering
     useEffect(() => {
@@ -84,42 +85,49 @@ export default function NavbarComponent() {
     };
 
     return (
-        <header className={`fixed z-50 w-full flex justify-center items-center ${isScrolled ? "bg-white bg-opacity-50 backdrop-blur-sm" : "bg-transparent backdrop-blur-0"}`}>
-            <div className="xl:max-w-[1280px] w-full">
-                <nav className={`flex xl:px-0 lg:px-20 lg:py-10 md:px-14 md:py-7 px-10 py-5 justify-between items-center w-full transition-colors duration-500 ease-out ${isScrolled ? "text-black" : "text-white"}`}>
-                    <MobileNav open={open} setOpen={setOpen} role={role} handleLogout={handleLogout} />
-                    <div className="flex h-full items-center">
-                        <h1 className="lg:text-2xl md:text-xl text-lg font-semibold cursor-pointer">PMB Fikes</h1>
-                        <Image src={icon} width={70} height={70} alt="icon"/>
-                    </div>
-                    <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
-                        {role === "users" ? (
-                            <>
-                                <Link className="cursor-pointer" href={"/"}>Home</Link>
-                                <Link className="cursor-pointer" href={"/profile"}>Profile</Link>
-                                <button onClick={handleLogout}>Logout</button>
-                            </>
-                        ) : role === "admin" ? (
-                            <>
-                                <Link className="cursor-pointer" href={"/dashboard"}>Dashboard</Link>
-                                <Link className="cursor-pointer" href={"/profile"}>Profile</Link>
-                                <Link className="cursor-pointer" href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
-                                <button onClick={handleLogout}>Logout</button>
-                            </>
-                        ) : (
-                            <>
-                                <Link className="cursor-pointer" href={"/login"}>Login</Link>
-                                <Link className="cursor-pointer" href={"/register"}>Register</Link>
-                            </>
-                        )}
-                    </ul>
-                    <div className="flex relative w-8 h-8 flex-col justify-between items-center md:hidden" onClick={() => setOpen(!open)}>
-                        <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
-                        <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : isScrolled ? "bg-black" : "w-full bg-white"}`} />
-                        <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
-                    </div>
-                </nav>
-            </div>
-        </header>
+        <>
+            <header className={`fixed z-50 w-full flex justify-center items-center bg-white`}>
+                <div className="xl:max-w-[1280px] w-full">
+                    <nav className={`flex p-4 justify-between items-center w-full transition-colors duration-500 ease-out text-black`}>
+                        <MobileNav open={open} setOpen={setOpen} role={role} handleLogout={handleLogout} />
+                        <div className="flex h-full items-center">
+                            <Image src={icon} width={70} height={70} alt="icon"/>
+                            <h1 className="lg:text-2xl md:text-xl text-lg font-bold cursor-pointer tracking-wide">PMB FIKES</h1>
+                        </div>
+                        <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
+                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
+                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
+                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/informasi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/informasi"}>Informasi</Link>
+                        </ul>
+                        <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
+                            {role === "users" ? (
+                                <>
+                                    <Link className={"cursor-pointer tracking-wide"} href={"/"}>Home</Link>
+                                    <Link className="cursor-pointer tracking-wide" href={"/profile"}>Profile</Link>
+                                    <button onClick={handleLogout}>Logout</button>
+                                </>
+                            ) : role === "admin" ? (
+                                <>
+                                    <Link className={`cursor-pointer tracking-wide`} href={"/dashboard"}>Dashboard</Link>
+                                    <Link className="cursor-pointer tracking-wide" href={"/profile"}>Profile</Link>
+                                    <Link className="cursor-pointer tracking-wide" href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
+                                    <button onClick={handleLogout}>Logout</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link className="cursor-pointer px-6 py-4 hover:border-none hover:bg-blue-900 hover:text-white transition-all duration-150 ease-out tracking-wide border-black rounded-lg border-2" href={"/login"}>Masuk</Link>
+                                </>
+                            )}
+                        </ul>
+                        <div className="flex relative w-8 h-8 flex-col justify-between items-center md:hidden" onClick={() => setOpen(!open)}>
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : isScrolled ? "bg-black" : "w-full bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
+                        </div>
+                    </nav>
+                </div>
+            </header>
+            <div className="h-24" /> {/* Spacer that gives room below the fixed navbar */}
+        </>
     );
 }

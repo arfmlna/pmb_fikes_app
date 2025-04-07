@@ -1,7 +1,7 @@
 'use client'
 import { Fragment, useEffect } from "react";
-import { useLoading } from "../components/Loading/HandleLoading";
-import Loading from "../components/Loading/Loading";
+import { useLoading } from "../components/loading/HandleLoading";
+import Loading from "../components/loading/Loading";
 import NavbarComponent from "../components/Navbar";
 import { useRouter } from "next/navigation";
 
