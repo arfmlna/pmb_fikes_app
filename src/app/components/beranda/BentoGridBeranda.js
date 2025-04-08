@@ -8,8 +8,8 @@ export default function BentoGridBeranda() {
     <section className='flex justify-center items-center w-full h-full'>
         <div className='xl:max-w-7xl w-full px-4 py-4 md:py-10 flex flex-col md:gap-6 gap-3 items-start md:px-10'>
         <h1 className='text-xl md:text-2xl font-bold text-black text-left'>Mengapa Memilih Fakultas Ilmu Kesehatan?</h1>
-            <div className='grid grid-cols-4 grid-rows-2 gap-3 w-full h-full text-white'>
-                <div className='w-full h-full group col-span-3 rounded-lg relative overflow-hidden'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:grid-rows-2 grid-rows-1 gap-3 w-full h-full text-white'>
+                <div className='w-full h-full group lg:col-span-3 md:col-span-2 col-span-1 rounded-lg relative overflow-hidden'>
                     <img src='/labskill.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex p-4 flex-col justify-start gap-y-3 relative z-10'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>
@@ -39,7 +39,7 @@ export default function BentoGridBeranda() {
                         <p className='text-base text-left'>Fakultas Ilmu Kesehatan UMTAS memiliki kurikulum yang sesuai dengan perkembangan zaman sehingga dapat menghasilkan tenaga kesehatan yang islami dan kompeten</p>
                     </article>
                 </div>
-                <div className='w-full h-full group col-span-3 rounded-lg relative overflow-hidden'>
+                <div className='w-full h-full group lg:col-span-3 md:col-span-2 col-span-1 rounded-lg relative overflow-hidden'>
                     <img src='/perpustakaan.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex p-4 flex-col justify-start gap-y-3 relative z-10'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>

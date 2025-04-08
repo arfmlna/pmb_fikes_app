@@ -47,8 +47,10 @@ export default function RegisterForm() {
 
     return (
         <div className="w-full h-screen bg-transparent flex justify-center items-center">
-            <form onSubmit={handleSubmit} className="w-full flex gap-5 bg-white max-w-md lg:px-14 lg:py-10 px-10 py-6 rounded-xl flex-col justify-center">
-                <h1 className="text-center font-bold text-base md:text-xl lg:text-2xl text-black">Register akun anda</h1>
+            <img src="/fikesicon.png" className="absolute z-10 size-[70px] top-2 left-2"/>
+            <img src="/aula.jpg" className=' w-full brightness-50 object-cover object-center h-screen absolute z-0'/>
+            <form onSubmit={handleSubmit} className="w-full flex z-10 gap-5 bg-white max-w-md lg:px-14 lg:py-10 px-10 py-6 rounded-xl flex-col justify-center">
+                <h1 className="text-center font-bold text-base md:text-xl lg:text-2xl text-black">Daftarkan akun anda</h1>
 
                 <div>
                     <label>Name</label>
