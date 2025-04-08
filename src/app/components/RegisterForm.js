@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Alert } from "./Alert";
+import Cookies from "js-cookie";
 
 export default function RegisterForm() {
     const [name, setName] = useState("");
@@ -15,11 +16,11 @@ export default function RegisterForm() {
     const router = useRouter()
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            if (localStorage.getItem('role') == 'admin') {
-                router.push('/dashboard')
-            } else if(localStorage.getItem('role') == 'users'){
+        if (Cookies.get('token')) {
+            if (Cookies.get('role') == 'users') {
                 router.push('/')
+            } else if(Cookies.get('role') != 'users'){
+                router.push('/dashboard')
             }
         }
     })

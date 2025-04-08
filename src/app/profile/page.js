@@ -2,16 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import EditUser from '../components/EditUser';
-import { useLoading } from '../components/Loading/HandleLoading';
-import Loading from '../components/Loading/Loading';
+import { useLoading } from '../components/loading/HandleLoading';
+import Loading from '../components/loading/Loading';
 import NavbarComponent from '../components/Navbar';
 import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 export default function Profile() {
   const router = useRouter()
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!Cookies.get('token')) {
       router.push('/login')
     }
   }, [router])

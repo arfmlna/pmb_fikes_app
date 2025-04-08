@@ -4,15 +4,18 @@ import { useLoading } from "../components/loading/HandleLoading";
 import Loading from "../components/loading/Loading";
 import NavbarComponent from "../components/Navbar";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import DashboardComponent from "../components/dashboard/DashboardComponent";
+import JumlahUser from "../components/dashboard/JumlahUser";
 
 export default function Dashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!Cookies.get('token')) {
       router.push('/login')
     }
-    if (localStorage.getItem('role') !== 'admin') {
+    if (Cookies.get('role') !== 'admin') {
       router.push('/')
     }
   }, [router])
@@ -23,7 +26,8 @@ export default function Dashboard() {
         {isLoading ? (<Loading/>) : (
           <Fragment>
             <NavbarComponent/>
-            <h1 className='flex justify-center items-center h-screen w-full text-white'>Dashboard</h1>
+            <DashboardComponent/>
+            <JumlahUser/>
           </Fragment>
         )}
       </Fragment>

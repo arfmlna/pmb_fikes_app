@@ -1,23 +1,14 @@
 'use client'
 import NavbarComponent from './components/Navbar';
-import Loading from './components/loading/Loading';
 import { useLoading } from './components/loading/HandleLoading';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import HeroSectionBeranda from './components/HeroSectionBeranda';
+import HeroSectionBeranda from './components/beranda/HeroSectionBeranda';
 import Footer from './components/Footer';
-import BentoGridBeranda from './components/BentoGridBeranda';
+import BentoGridBeranda from './components/beranda/BentoGridBeranda';
+import CaraDaftar from './components/beranda/CaraDaftar';
+import Testimonials from './components/beranda/Testimonials';
+import Slogan from './components/beranda/Slogan';
 
 export default function Home() {
-  const router = useRouter()
-
-  useEffect(() => {
-    if (localStorage.getItem('role') && localStorage.getItem('role') != 'users') {
-      router.push('/dashboard')
-    } else if (!localStorage.getItem('role') && localStorage.getItem('role') === 'users') {
-      router.push('/')
-    } 
-  }, [router])
 
   const isLoading = useLoading();
   return (
@@ -27,6 +18,9 @@ export default function Home() {
           <NavbarComponent/>
           <HeroSectionBeranda/>
           <BentoGridBeranda/>
+          <CaraDaftar/>
+          <Testimonials/>
+          <Slogan/>
           <Footer/>
         </>
       {/* )} */}

@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Alert } from "./Alert";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -14,11 +15,11 @@ export default function LoginForm() {
     const router = useRouter()
 
     useEffect(() => {
-        if (localStorage.getItem('token')) {
-            if (localStorage.getItem('role') == 'admin') {
-                router.push('/dashboard')
-            } else if(localStorage.getItem('role') == 'users'){
+        if (Cookies.get('token')) {
+            if (Cookies.get('role') == 'users') {
                 router.push('/')
+            } else if(Cookies.get('role') != 'users'){
+                router.push('/dashboard')
             }
         }
     })
@@ -32,9 +33,9 @@ export default function LoginForm() {
             const response = await axios.post("/api/login", { email, password }, { withCredentials: true });
 
             console.log("Login successful:", response.data);
-            localStorage.setItem("token", response.data.token)
-            localStorage.setItem("userId", response.data.id)
-            localStorage.setItem("role", response.data.role)
+            Cookies.set("token", response.data.token)
+            Cookies.set("userId", response.data.id)
+            Cookies.set("role", response.data.role)
             
             Alert('Info', 'Login Successful', 'success', 'OK!')
             // Handle successful login (e.g., redirect or store token in localStorage)

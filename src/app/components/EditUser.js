@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Alert } from "./Alert";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function EditUser() {
     const [oldPassword, setOldPassword] = useState("");
@@ -15,7 +16,7 @@ export default function EditUser() {
     // Fetch token after component mounts
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const storedToken = localStorage.getItem("token");
+            const storedToken = Cookies.get("token");
             setToken(storedToken);
         }
     }, []);
@@ -66,7 +67,7 @@ export default function EditUser() {
 
     const handleDeleteAccount = async () => {
         try {
-            const account = localStorage.getItem('userId')
+            const account = Cookies.get('userId')
             const response = await axios.delete(
                 `/api/users/${account}`,
                 {

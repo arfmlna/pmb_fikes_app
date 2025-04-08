@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import icon from '../fikesicon.png'
 import { Alert } from "./Alert";
+import Cookies from "js-cookie";
 
 function MobileNav({ open, setOpen, role, handleLogout }) {
     return (
@@ -48,7 +49,7 @@ export default function NavbarComponent() {
     // Fetch localStorage values after rendering
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const storedRole = localStorage.getItem("role");
+            const storedRole = Cookies.get("role");
             setRole(storedRole);
         }
     }, []);
@@ -71,13 +72,14 @@ export default function NavbarComponent() {
     }, []);
 
     // Logout function
-    const handleLogout = () => {
+    const handleLogout = async () => {
         try {
-            localStorage.removeItem("token");
-            localStorage.removeItem("id");
-            localStorage.removeItem("role");
+            Cookies.remove("token");
+            Cookies.remove("role");
+            Cookies.remove("userId");
             Alert('Logout', 'Aku Pergi🏃‍♂️‍➡️', 'success', 'OK!')
-            router.push("/login"); // Redirect to login after logout
+            
+            router.push("/login") // Redirect to login after logout
         } catch (error) {
             Alert('Logout', 'Aku Kembali🏃‍♂️‍➡️', 'error', 'OK!')
             console.error("Error while logging out", error);
@@ -94,23 +96,24 @@ export default function NavbarComponent() {
                             <Image src={icon} width={70} height={70} alt="icon"/>
                             <h1 className="lg:text-2xl md:text-xl text-lg font-bold cursor-pointer tracking-wide">PMB FIKES</h1>
                         </div>
-                        <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
-                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
-                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
-                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/informasi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/informasi"}>Informasi</Link>
-                        </ul>
+                        {role !== "users" ? null : (
+                            <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
+                                <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
+                                <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
+                                <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/informasi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/informasi"}>Informasi</Link>
+                            </ul>
+                        )}
                         <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
                             {role === "users" ? (
                                 <>
-                                    <Link className={"cursor-pointer tracking-wide"} href={"/"}>Home</Link>
-                                    <Link className="cursor-pointer tracking-wide" href={"/profile"}>Profile</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/profile" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/profile"}>Profile</Link>
                                     <button onClick={handleLogout}>Logout</button>
                                 </>
                             ) : role === "admin" ? (
                                 <>
-                                    <Link className={`cursor-pointer tracking-wide`} href={"/dashboard"}>Dashboard</Link>
-                                    <Link className="cursor-pointer tracking-wide" href={"/profile"}>Profile</Link>
-                                    <Link className="cursor-pointer tracking-wide" href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/dashboard"}>Dashboard</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/profile" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/profile"}>Profile</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/rekap-pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
                                     <button onClick={handleLogout}>Logout</button>
                                 </>
                             ) : (
