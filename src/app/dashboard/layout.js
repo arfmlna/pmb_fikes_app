@@ -2,7 +2,7 @@
 
 import Cookies from "js-cookie";
 import { redirect, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 export default function RootLayout({ children }) {
 
@@ -19,12 +19,14 @@ export default function RootLayout({ children }) {
       })
 
   return (
-    <html lang="en">
-      <body
-        className={`antialiased`}
-      >
+    // <html lang="en">
+    //   <body
+    //     className={`antialiased`}
+    //   >
+      <Fragment>
         {children}
-      </body>
-    </html>
+      </Fragment>
+    //   </body>
+    // </html>
   );
 }

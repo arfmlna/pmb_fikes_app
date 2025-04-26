@@ -13,6 +13,8 @@ export default function EditUser() {
 
     const router = useRouter()
 
+    const account = Cookies.get('userId')
+
     // Fetch token after component mounts
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -64,10 +66,9 @@ export default function EditUser() {
             console.error("Error changing email:", error.response?.data || error.message);
         }
     };
-
+    
     const handleDeleteAccount = async () => {
         try {
-            const account = Cookies.get('userId')
             const response = await axios.delete(
                 `/api/users/${account}`,
                 {
@@ -76,9 +77,9 @@ export default function EditUser() {
                     }
                 }
             )
-            localStorage.removeItem("token");
-            localStorage.removeItem("id");
-            localStorage.removeItem("role");
+            Cookies.remove("token");
+            Cookies.remove("id");
+            Cookies.remove("role");
             Alert('Info', 'Delete account successfully', 'success', 'OK!')
             router.replace('/login')
             console.log("Delete account successfully:", response.data);

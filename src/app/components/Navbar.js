@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import icon from '../fikesicon.png'
 import { Alert } from "./Alert";
 import Cookies from "js-cookie";
+import parseData from "./method/GetCookies";
 
 function MobileNav({ open, setOpen, role, handleLogout }) {
     return (
@@ -44,7 +45,9 @@ export default function NavbarComponent() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [role, setRole] = useState(null); // State for role
     const router = useRouter();
-    const currentRoute = usePathname() 
+    const currentRoute = usePathname()
+    
+    const data = parseData
 
     // Fetch localStorage values after rendering
     useEffect(() => {
@@ -93,7 +96,7 @@ export default function NavbarComponent() {
                     <nav className={`flex p-4 justify-between items-center w-full transition-colors duration-500 ease-out text-black`}>
                         <MobileNav open={open} setOpen={setOpen} role={role} handleLogout={handleLogout} />
                         <div className="flex h-full items-center">
-                            <Image src={icon} width={70} height={70} alt="icon"/>
+                            <Image priority src={icon} width={70} height={70} alt="icon"/>
                             <h1 className="lg:text-2xl md:text-xl text-lg font-bold cursor-pointer tracking-wide">PMB FIKES</h1>
                         </div>
                         {role !== "users" ? null : (
@@ -123,9 +126,9 @@ export default function NavbarComponent() {
                             )}
                         </ul>
                         <div className="flex relative w-8 h-8 flex-col justify-between items-center md:hidden" onClick={() => setOpen(!open)}>
-                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
-                            <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : isScrolled ? "bg-black" : "w-full bg-white"}`} />
-                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-black"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : isScrolled ? "bg-black" : "w-full bg-black"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-black"}`} />
                         </div>
                     </nav>
                 </div>

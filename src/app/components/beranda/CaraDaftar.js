@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 // import { easeOut } from 'framer-motion';
 // import gsap from 'gsap';
 // import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -90,7 +91,7 @@ export default function CaraDaftar() {
                     </div>
                 </div>
                 <div ref={imageItem} className='xl:w-full lg:w-1/2 w-full lg:h-[500px] md:h-[400px] h-[300px] relative max-w-xl group overflow-hidden rounded-lg shadow-black shadow-lg'>
-                    <img src='/umtas.jpg' className='w-full transition-all duration-500 ease-out group-hover:scale-110 absolute object-cover object-left brightness-75 h-full'/>
+                    <Image width="600" height="600" alt='' src='/umtas.jpg' className='w-full transition-all duration-500 ease-out group-hover:scale-110 absolute object-cover object-left brightness-75 h-full'/>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 'use client'
 import NavbarComponent from './components/Navbar';
-import { useLoading } from './components/loading/HandleLoading';
+import { useLoading } from './components/Loadingku/HandleLoading';
 import HeroSectionBeranda from './components/beranda/HeroSectionBeranda';
 import Footer from './components/Footer';
 import BentoGridBeranda from './components/beranda/BentoGridBeranda';

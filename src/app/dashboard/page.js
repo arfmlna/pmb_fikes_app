@@ -1,7 +1,7 @@
 'use client'
 import { Fragment, useEffect } from "react";
-import { useLoading } from "../components/loading/HandleLoading";
-import Loading from "../components/loading/Loading";
+import { useLoading } from "../components/Loadingku/HandleLoading";
+import Loading from "../components/Loadingku/Loading";
 import NavbarComponent from "../components/Navbar";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -29,7 +29,7 @@ export default function Dashboard() {
             <DashboardComponent/>
             <JumlahUser/>
           </Fragment>
-        )}
+        )} 
       </Fragment>
     );
   return (

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Alert } from "./Alert";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 export default function RegisterForm() {
     const [name, setName] = useState("");
@@ -47,8 +48,8 @@ export default function RegisterForm() {
 
     return (
         <div className="w-full h-screen bg-transparent flex justify-center items-center">
-            <img src="/fikesicon.png" className="absolute z-10 size-[70px] top-2 left-2"/>
-            <img src="/aula.jpg" className=' w-full brightness-50 object-cover object-center h-screen absolute z-0'/>
+            <Image width='600' height='600' alt="" src="/fikesicon.png" className="absolute z-10 size-[70px] top-2 left-2"/>
+            <Image width='600' height='600' alt="" src="/aula.jpg" className=' w-full brightness-50 object-cover object-center h-screen absolute z-0'/>
             <form onSubmit={handleSubmit} className="w-full flex z-10 gap-5 bg-white max-w-md lg:px-14 lg:py-10 px-10 py-6 rounded-xl flex-col justify-center">
                 <h1 className="text-center font-bold text-base md:text-xl lg:text-2xl text-black">Daftarkan akun anda</h1>
 
@@ -71,7 +72,6 @@ export default function RegisterForm() {
                         type="email"
                         className="mt-1 block w-full border rounded px-3 py-2"
                         required
-                        autoFocus
                         autoComplete="username"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -90,7 +90,7 @@ export default function RegisterForm() {
                     />
                 </div>
 
-                <Link href={"/login"}>Sudah punya akun?</Link>
+                <Link href={"/login"} className="">Sudah punya akun?</Link>
 
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 

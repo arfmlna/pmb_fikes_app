@@ -11,7 +11,7 @@ async function handler(req, res) {
             return res.status(400).json({ message: 'ID diperlukan untuk memperbarui data' });
         }
         try {
-            const [result] = await connect.query('select * from login_logs where user_id = ?', [id])
+            const [result] = await connect.query('SELECT login_logs.id AS login_log_id, login_logs.user_id, login_logs.login_time, users.id AS user_id, users.name, users.role FROM login_logs INNER JOIN users ON login_logs.user_id = users.id WHERE users.id = ? ORDER BY login_logs.user_id ASC', [id])
             if (result.length === 0) {
                 return res.status(404).json({ message: "Data tidak ditemukan" });
             }

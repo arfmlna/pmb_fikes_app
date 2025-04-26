@@ -1,3 +1,4 @@
+import Image  from 'next/image';
 import React from 'react'
 import { AiFillBank } from "react-icons/ai";
 import { FaHandshake, FaUserGraduate } from "react-icons/fa";
@@ -10,7 +11,7 @@ export default function BentoGridBeranda() {
         <h1 className='text-xl md:text-2xl font-bold text-black text-left'>Mengapa Memilih Fakultas Ilmu Kesehatan?</h1>
             <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 md:grid-rows-2 grid-rows-1 gap-3 w-full h-full text-white'>
                 <div className='w-full h-full group lg:col-span-3 md:col-span-2 col-span-1 rounded-lg relative overflow-hidden'>
-                    <img src='/labskill.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
+                    <Image width="100" height="100" alt='' src='/labskill.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex p-4 flex-col justify-start gap-y-3 relative z-10'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>
                             <AiFillBank className='size-10 md:size-16'/>
@@ -20,7 +21,7 @@ export default function BentoGridBeranda() {
                     </article>
                 </div>
                 <div className='w-full h-full group col-span-1 rounded-lg relative overflow-hidden'>
-                    <img src='/CBT.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
+                    <Image width="100" height="100" alt='' src='/CBT.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex flex-col justify-start gap-y-3 relative z-10 p-4'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>
                             <FaUserGraduate className='size-10 md:size-16'/>
@@ -30,7 +31,7 @@ export default function BentoGridBeranda() {
                     </article>
                 </div>
                 <div className='w-full h-full group col-span-1 rounded-lg relative overflow-hidden'>
-                    <img src='/aula.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
+                    <Image width="100" height="100" alt='' src='/aula.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex flex-col justify-start gap-y-3 relative z-10 p-4'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>
                             <IoIosBook className='size-10 md:size-16'/>
@@ -40,7 +41,7 @@ export default function BentoGridBeranda() {
                     </article>
                 </div>
                 <div className='w-full h-full group lg:col-span-3 md:col-span-2 col-span-1 rounded-lg relative overflow-hidden'>
-                    <img src='/perpustakaan.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
+                    <Image width="100" height="100" alt='' src='/perpustakaan.jpg' className='w-full h-full group-hover:scale-105 brightness-[.2] group-hover:brightness-[.4] transition-all duration-150 ease-out absolute object-cover object-center'/>
                     <article className='flex p-4 flex-col justify-start gap-y-3 relative z-10'>
                         <div className='flex flex-col justify-start items-start gap-y-1.5'>
                             <FaHandshake className='size-10 md:size-16'/>

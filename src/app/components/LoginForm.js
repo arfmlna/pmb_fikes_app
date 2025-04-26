@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Alert } from "./Alert";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -33,9 +34,10 @@ export default function LoginForm() {
             const response = await axios.post("/api/login", { email, password }, { withCredentials: true });
 
             console.log("Login successful:", response.data);
-            Cookies.set("token", response.data.token)
-            Cookies.set("userId", response.data.id)
-            Cookies.set("role", response.data.role)
+            Cookies.set("user", response.data.user, { expires: 1 })
+            Cookies.set("token", response.data.token, { expires: 1 })
+            Cookies.set("userId", response.data.id, { expires: 1 })
+            Cookies.set("role", response.data.role, { expires: 1 })
             
             Alert('Info', 'Login Successful', 'success', 'OK!')
             // Handle successful login (e.g., redirect or store token in localStorage)
@@ -54,8 +56,8 @@ export default function LoginForm() {
 
     return (
         <div className="w-full h-screen bg-transparent flex justify-center items-center">
-            <img src="/fikesicon.png" className="absolute z-10 size-[70px] top-2 left-2"/>
-            <img src="/umtas.jpg" className=' w-full brightness-50 object-cover object-center h-screen absolute z-0'/>
+            <Image height='600' width='600' alt='' src="/fikesicon.png" className="absolute z-10 size-[70px] top-2 left-2"/>
+            <Image height='600' width='600' alt='' src="/umtas.jpg" className=' w-full brightness-50 object-cover object-center h-screen absolute z-0'/>
             <form onSubmit={handleSubmit} className="w-full z-10 flex gap-5 bg-white max-w-md lg:px-14 lg:py-10 px-10 py-6 rounded-xl flex-col justify-center">
                 <h1 className="text-center font-bold text-base md:text-xl lg:text-2xl text-black">Masuk ke akun anda</h1>
 
@@ -84,7 +86,7 @@ export default function LoginForm() {
                     />
                 </div>
 
-                <Link className="text-black" href={"/register"}>Belum punya akun?</Link>
+                <Link className="text-black hover:text-blue-500 hover:underline" href={"/register"}>Belum punya akun?</Link>
                 
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 

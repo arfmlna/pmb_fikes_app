@@ -11,14 +11,15 @@ export default async function handler(req, res) {
             if (existingUser.length > 0) {
                 return res.status(400).json({ message: 'Email sudah digunakan!' });
             }
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const [result] = await connect.query('INSERT INTO users (name, email, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)', [name, email, hashedPassword, role, now, now]);
             
-            // const userId = result.insertId;
-            // await connect.query('INSERT INTO login_logs (user_id, login_time) VALUES (?, ?)', [
-            //     userId,
-            //     now
-            // ]);
+            const [maxResultID] = await connect.query('SELECT MAX(CAST(SUBSTRING(id, 4) AS UNSIGNED)) AS max_id FROM users');
+            const lastId = maxResultID[0]?.max_id || 0;
+            const newIdNumber = lastId + 1;
+            const paddedId = String(newIdNumber).padStart(6, "0");
+            const newId = `FKS${paddedId}`;
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const [result] = await connect.query('INSERT INTO users (id, name, email, password, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)', [newId, name, email, hashedPassword, role, now, now]);
 
             res.status(201).json({ message: 'Pengguna berhasil didaftarkan!', data: result });
         } catch (error) {

@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 // import { easeOut } from "framer-motion";
 // import gsap from "gsap";
 // import { ScrollTrigger } from "gsap/all";
@@ -105,11 +106,11 @@ export default function Testimonials() {
                 <div ref={scrollContainerRef} className='overflow-x-scroll xl:w-full lg:w-2/3 w-full h-auto max-w-2xl py-5 overflow-hidden' style={{scrollSnapType: 'x mandatory', scrollbarColor: 'transparent transparent', userSelect: 'none'}}>
                     <div ref={testimonialsItem} className='w-max h-auto flex items-center justify-center gap-5'>
                         <div className='lg:w-[400px] md:w-[350px] w-[300px] lg:h-[500px] md:h-[450px] h-[400px] relative shadow-black shadow-lg rounded-xl overflow-hidden'>
-                            <img src="/umtas.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
+                            <Image width='600' height='600' alt="" src="/umtas.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
                             <div className='flex justify-center items-end p-5 w-full h-full absolute z-20 group'>
                                 <div className='w-full p-3 flex flex-col justify-center items-center md:gap-y-5 group-hover:bg-blue-900 group-hover:bg-opacity-80 group-hover:backdrop-blur-sm group-hover:text-white transition-all duration-150 ease-out gap-y-2.5 bg-white bg-opacity-80 backdrop-blur-sm rounded-md text-black'>
                                     <div className="flex flex-col justify-center items-center md:gap-y-2 gap-y-1">
-                                        <img src="/plague-doctor.jpg" className="w-10 h-10 object-fill rounded-full"/>
+                                        <Image width='600' height='600' alt="" src="/plague-doctor.jpg" className="w-10 h-10 object-fill rounded-full"/>
                                         <h1 className="xl:text-xl md:text-lg text-base font-semibold">Dr. Plague</h1>
                                     </div>
                                     <p className="text-center md:text-base text-sm italic">"Dengan kuliah di fakultas ilmu kesehatan universitas muhammadiyah tasikmalaya saya bisa menangani wabah "Black Death" di berbagai benua."</p>
@@ -124,11 +125,11 @@ export default function Testimonials() {
                             </div>
                         </div>
                         <div className='lg:w-[400px] md:w-[350px] w-[300px] lg:h-[500px] md:h-[450px] h-[400px] relative shadow-black shadow-lg rounded-xl overflow-hidden'>
-                            <img src="/labskill.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
+                            <Image width='600' height='600' alt="" src="/labskill.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
                             <div className='flex justify-center items-end p-5 w-full h-full absolute z-20 group'>
                                 <div className='w-full p-3 flex flex-col justify-center items-center md:gap-y-5 group-hover:bg-blue-900 group-hover:bg-opacity-80 group-hover:backdrop-blur-sm group-hover:text-white transition-all duration-150 ease-out gap-y-2.5 bg-white bg-opacity-80 backdrop-blur-sm rounded-md text-black'>
                                     <div className="flex flex-col justify-center items-center md:gap-y-2 gap-y-1">
-                                        <img src="/mangunkusumo.webp" className="w-10 h-10 object-fill rounded-full"/>
+                                        <Image width='600' height='600' alt="" src="/mangunkusumo.webp" className="w-10 h-10 object-fill rounded-full"/>
                                         <h1 className="xl:text-xl md:text-lg text-base font-semibold">Dr. Cipto Mangunkusumo</h1>
                                     </div>
                                     <p className="text-center md:text-base text-sm italic">"Dengan kuliah di fakultas ilmu kesehatan universitas muhammadiyah tasikmalaya saya bisa menangani wabah "Septicemic Plague" (PES) di Malang, Indonesia."</p>
@@ -143,11 +144,11 @@ export default function Testimonials() {
                             </div>
                         </div>
                         <div className='lg:w-[400px] md:w-[350px] w-[300px] lg:h-[500px] md:h-[450px] h-[400px] relative shadow-black shadow-lg rounded-xl overflow-hidden'>
-                            <img src="/perpustakaan.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
+                            <Image width='600' height='600' alt="" src="/perpustakaan.jpg" className='w-full h-full object-cover brightness-75 absolute z-10'/>
                             <div className='flex justify-center items-end p-5 w-full h-full absolute z-20 group'>
                                 <div className='w-full p-3 flex flex-col justify-center items-center md:gap-y-5 group-hover:bg-blue-900 group-hover:bg-opacity-80 group-hover:backdrop-blur-sm group-hover:text-white transition-all duration-150 ease-out gap-y-2.5 bg-white bg-opacity-80 backdrop-blur-sm rounded-md text-black'>
                                     <div className="flex flex-col justify-center items-center md:gap-y-2 gap-y-1">
-                                        <img src="/Edward jenner.jpg" className="w-10 h-10 object-fill rounded-full"/>
+                                        <Image width='600' height='600' alt="" src="/Edward jenner.jpg" className="w-10 h-10 object-fill rounded-full"/>
                                         <h1 className="xl:text-xl md:text-lg text-base font-semibold">Edward Jenner</h1>
                                     </div>
                                     <p className="text-center md:text-base text-sm italic">"Dengan kuliah di fakultas ilmu kesehatan universitas muhammadiyah tasikmalaya saya bisa menemukan vaksin untuk menangani penyakit cacar air."</p>

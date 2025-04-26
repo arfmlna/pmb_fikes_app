@@ -28,7 +28,7 @@ export default function DashboardComponent() {
             )
             const filteredUsers = response.data.body.filter((user) => user.role === "users")
             setUsers(filteredUsers)
-            setLoading(false)
+            // setLoading(false)
         } catch (error) {
             console.error(error.message)
         }

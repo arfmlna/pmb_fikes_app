@@ -26,9 +26,11 @@ export default async function handler(req, res) {
             new Date()
         ]);
 
-        res.status(200).json({ message: 'Login berhasil!', token, id: user.id, role: user.role });
+        const data = JSON.stringify(user)
+
+        res.status(200).json({ message: 'Login berhasil!', token, id: user.id, role: user.role, user: data });
         } catch (error) {
-        res.status(500).json({ message: 'Terjadi kesalahan.' });
+        res.status(500).json({ message: error });
         }
     } else {
         res.setHeader('Allow', ['POST']);
