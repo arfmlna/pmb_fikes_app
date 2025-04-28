@@ -91,7 +91,7 @@ export default function NavbarComponent() {
 
     return (
         <>
-            <header className={`fixed z-50 w-full flex justify-center items-center bg-white`}>
+            <header className={`fixed z-50 w-full flex justify-center items-center bg-white border-b border-b-gray-300`}>
                 <div className="xl:max-w-[1280px] w-full">
                     <nav className={`flex p-4 justify-between items-center w-full transition-colors duration-500 ease-out text-black`}>
                         <MobileNav open={open} setOpen={setOpen} role={role} handleLogout={handleLogout} />
