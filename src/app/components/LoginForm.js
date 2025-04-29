@@ -84,13 +84,13 @@ export default function LoginForm() {
                     />
                 </div>
 
-                <Link className="text-black" href={"/register"}>Belum punya akun?</Link>
+                <Link className="text-blue-900 underline" href={"/register"}>Belum punya akun?</Link>
                 
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
                 <div className="flex items-center justify-center mt-4">
-                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded" disabled={loading}>
-                        {loading ? "Logging in..." : "Log in"}
+                    <button type="submit" className="bg-blue-900 text-white px-4 py-2 rounded" disabled={loading}>
+                        {loading ? "Sedang masuk..." : "Masuk"}
                     </button>
                 </div>
             </form>

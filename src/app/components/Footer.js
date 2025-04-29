@@ -22,7 +22,8 @@ export default function Footer() {
                         <div className="flex flex-col gap-y-1.5 justify-center items-start">
                             <Link href="/" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Beranda</Link>
                             <Link href="/pendaftaran" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Pendaftaran</Link>
-                            <Link href="/informasi" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Informasi</Link>
+                            <Link href="/program-studi" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Program Studi</Link>
+                            <Link href="/pengumuman" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Informasi dan Pengumuman</Link>
                         </div>
                     </div>
                     <div className="flex flex-col lg:gap-y-6 md:gap-y-4 gap-y-2 justify-center items-start">
