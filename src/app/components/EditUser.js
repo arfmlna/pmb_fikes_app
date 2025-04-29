@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Alert } from "./Alert";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { CgUser } from "react-icons/cg";
 
 export default function EditUser() {
     const [oldPassword, setOldPassword] = useState("");
@@ -89,73 +90,80 @@ export default function EditUser() {
     }
 
     return (
-        <section className="flex w-full items-center justify-center">
+        <section className="flex w-full items-center py-10 px-4 md:px-10 justify-center">
             <div className="xl:max-w-7xl mx-auto w-full bg-white">
-                <section className="flex flex-col w-full gap-10 justify-center p-10">
-                    <h1 className="text-lg md:text-2xl lg:text-4xl font-bold">Update Your Profile</h1>
-                    
-                    {/* Change Password Section */}
-                    <div className="flex flex-col justify-center items-start gap-4">
-                        <h1 className="text-base md:text-lg lg:text-xl font-bold">Change Password</h1>
-                        <label>Old Password</label>
-                        <input
-                            type="password"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            placeholder="Old password"
-                            className="border px-3 py-2 rounded-md"
-                        />
-                        <label>New Password</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="New password"
-                            className="border px-3 py-2 rounded-md"
-                        />
-                        <button
-                            onClick={handleChangePassword}
-                            className="bg-blue-500 text-white px-5 py-2 rounded-md hover:bg-blue-600"
-                        >
-                            Change
-                        </button>
+                <div className="flex flex-col gap-5 w-full items-center">
+                    <div className="bg-white flex flex-col w-full items-center gap-4 p-4 border border-gray-300 rounded-lg">
+                        <CgUser className="text-black size-40"/>
+                        <p className="text-base md:text-lg lg:text-xl">Username : </p>
+                        <p className="text-base md:text-lg lg:text-xl">Email : </p>
                     </div>
+                    <section className="flex flex-col w-full gap-10 justify-center p-10">
+                        <h1 className="text-lg md:text-2xl lg:text-4xl font-bold">Perbarui profil anda</h1>
+                        
+                        {/* Change Password Section */}
+                        <div className="flex flex-col w-full justify-center items-start gap-4">
+                            <h1 className="text-base md:text-lg lg:text-xl font-bold">Ganti password</h1>
+                            <label>Password lama</label>
+                            <input
+                                type="password"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                placeholder="Password lama"
+                                className="border px-3 py-2 rounded-md w-full"
+                            />
+                            <label>Password baru</label>
+                            <input
+                                type="password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                placeholder="Password baru"
+                                className="border px-3 py-2 rounded-md w-full"
+                            />
+                            <button
+                                onClick={handleChangePassword}
+                                className="bg-blue-500 flex justify-center items-center text-white px-5 py-2 rounded-md hover:bg-blue-600"
+                            >
+                                Ganti
+                            </button>
+                        </div>
 
-                    {/* Change Email Section */}
-                    <div className="flex flex-col justify-center items-start gap-4">
-                        <h1 className="text-base md:text-lg lg:text-xl font-bold">Change Email</h1>
-                        <label>Old Email</label>
-                        <input
-                            type="email"
-                            value={oldEmail}
-                            onChange={(e) => setOldEmail(e.target.value)}
-                            placeholder="Old email"
-                            className="border px-3 py-2 rounded-md"
-                        />
-                        <label>New Email</label>
-                        <input
-                            type="email"
-                            value={newEmail}
-                            onChange={(e) => setNewEmail(e.target.value)}
-                            placeholder="New email"
-                            className="border px-3 py-2 rounded-md"
-                        />
+                        {/* Change Email Section */}
+                        <div className="flex flex-col justify-center items-start gap-4">
+                            <h1 className="text-base md:text-lg lg:text-xl font-bold">Ganti email</h1>
+                            <label>Email lama</label>
+                            <input
+                                type="email"
+                                value={oldEmail}
+                                onChange={(e) => setOldEmail(e.target.value)}
+                                placeholder="Email lama"
+                                className="border px-3 py-2 rounded-md w-full"
+                            />
+                            <label>Email baru</label>
+                            <input
+                                type="email"
+                                value={newEmail}
+                                onChange={(e) => setNewEmail(e.target.value)}
+                                placeholder="Email baru"
+                                className="border px-3 py-2 rounded-md w-full"
+                            />
+                            <button
+                                onClick={handleChangeEmail}
+                                className="bg-green-500 text-white px-5 py-2 rounded-md hover:bg-green-600"
+                            >
+                                Ganti
+                            </button>
+                        </div>
+
+                        {/* Delete Account Section */}
                         <button
-                            onClick={handleChangeEmail}
-                            className="bg-green-500 text-white px-5 py-2 rounded-md hover:bg-green-600"
+                            onClick={handleDeleteAccount}
+                            className="bg-red-500 text-white px-5 py-2 rounded-md hover:bg-red-600"
                         >
-                            Change
+                            Hapus akun
                         </button>
-                    </div>
-
-                    {/* Delete Account Section */}
-                    <button
-                        onClick={handleDeleteAccount}
-                        className="bg-red-500 text-white px-5 py-2 rounded-md hover:bg-red-600"
-                    >
-                        Delete Account
-                    </button>
-                </section>
+                    </section>
+                </div>
             </div>
         </section>
     );

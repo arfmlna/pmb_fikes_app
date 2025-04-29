@@ -32,6 +32,7 @@ export default function PendaftaranList() {
               <option>D3 - Keperawatan</option>
               <option>D3 - Kebidanan</option>
               <option>Prof - Pendidikan Profesi Kebinanan</option>
+              <option>Prof - Profesi Ners</option>
               {/* Add options here */}
             </select>
 

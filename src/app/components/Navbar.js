@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import icon from '../fikesicon.png'
 import { Alert } from "./Alert";
 import Cookies from "js-cookie";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 function MobileNav({ open, setOpen, role, handleLogout }) {
     return (
@@ -41,9 +42,11 @@ function MobileNav({ open, setOpen, role, handleLogout }) {
 
 export default function NavbarComponent() {
     const [open, setOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
+    const [visible, setVisible] = useState(true);
     const [role, setRole] = useState(null); // State for role
     const router = useRouter();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const currentRoute = usePathname() 
 
     // Fetch localStorage values after rendering
@@ -54,22 +57,33 @@ export default function NavbarComponent() {
         }
     }, []);
 
-    // Handle scroll effect for navbar
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 400) {
-                setIsScrolled(true);
+            const currentScrollPos = window.scrollY;
+    
+            if (currentScrollPos > 400) {
+                if (currentScrollPos > prevScrollPos) {
+                    // Scrolling down
+                    setVisible(false);
+                } else {
+                    // Scrolling up
+                    setVisible(true);
+                }
             } else {
-                setIsScrolled(false);
+                // If above 400px, always show
+                setVisible(true);
             }
+    
+            setPrevScrollPos(currentScrollPos);
         };
-
+    
         window.addEventListener("scroll", handleScroll);
-
+    
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, []);
+    }, [prevScrollPos]);
+    
 
     // Logout function
     const handleLogout = async () => {
@@ -88,7 +102,7 @@ export default function NavbarComponent() {
 
     return (
         <>
-            <header className={`fixed z-50 w-full flex justify-center items-center bg-white border-b border-b-gray-300`}>
+            <header className={`fixed z-50 w-full flex justify-center items-center bg-white border-b border-b-gray-300 transition-all duration-300 ease-out transform ${visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}>
                 <div className="xl:max-w-[1280px] w-full">
                     <nav className={`flex p-4 justify-between items-center w-full transition-colors duration-500 ease-out text-black`}>
                         <MobileNav open={open} setOpen={setOpen} role={role} handleLogout={handleLogout} />
@@ -100,21 +114,43 @@ export default function NavbarComponent() {
                             <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
                                 <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
                                 <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
-                                <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/informasi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/informasi"}>Informasi</Link>
+                                <button className={`pb-1 flex justify-center items-center gap-1.5 ${currentRoute === "/program-studi" || currentRoute === "/pengumuman" ? "font-bold" : "font-normal"}`} onClick={() => setIsDropdownOpen((prev) => !prev)}><p className="text-black">Informasi</p>{isDropdownOpen ? <BsChevronUp/> : <BsChevronDown/>}</button>
+                                {isDropdownOpen && (
+                                    <div className="absolute top-20 -mr-32 w-48 bg-white border border-gray-300 shadow-lg rounded-md z-50 animate-fadeIn">
+                                        <button
+                                            onClick={() => {
+                                            setIsDropdownOpen(false);
+                                            router.push("/program-studi");
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Program Studi
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                            setIsDropdownOpen(false);
+                                            router.push("/pengumuman");
+                                            }}
+                                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                        >
+                                            Informasi & Pengumuman
+                                        </button>
+                                    </div>
+                                )}
                             </ul>
                         )}
                         <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
                             {role === "users" ? (
                                 <>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/profile" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/profile"}>Profile</Link>
-                                    <button onClick={handleLogout}>Logout</button>
+                                    <button className="bg-red-500 text-white p-4 rounded-lg" onClick={handleLogout}>Keluar</button>
                                 </>
                             ) : role === "admin" ? (
                                 <>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/dashboard"}>Dashboard</Link>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/profile" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/profile"}>Profile</Link>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/rekap-pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
-                                    <button onClick={handleLogout}>Logout</button>
+                                    <button className="bg-red-500 text-white p-4 rounded-lg" onClick={handleLogout}>Keluar</button>
                                 </>
                             ) : (
                                 <>
@@ -123,9 +159,9 @@ export default function NavbarComponent() {
                             )}
                         </ul>
                         <div className="flex relative w-8 h-8 flex-col justify-between items-center md:hidden" onClick={() => setOpen(!open)}>
-                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
-                            <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : isScrolled ? "bg-black" : "w-full bg-white"}`} />
-                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : isScrolled ? "bg-black" : "bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "rotate-45 translate-y-3.5 bg-black" : visible ? "bg-black" : "bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition-all duration-300 ease-in-out ${open ? "w-0 h-0" : visible ? "bg-black" : "w-full bg-white"}`} />
+                            <span className={`h-1 w-full rounded-lg transform transition duration-300 ease-in-out ${open ? "-rotate-45 -translate-y-3.5 bg-black" : visible ? "bg-black" : "bg-white"}`} />
                         </div>
                     </nav>
                 </div>
