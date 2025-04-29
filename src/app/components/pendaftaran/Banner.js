@@ -17,7 +17,7 @@ export default function Banner() {
                             <p className='text-base text-left'>Apabila kamu memiliki kendala atau pertanyaan. Silakan hubungi kami atau dapat juga membaca Petunjuk Pendaftaran terlebih dahulu</p>
                         </article>
                         <div className='max-w-xl lg:p-10 p-6 w-full relative z-10 flex justify-center gap-5 items-center'>
-                            <Link href={"#"} className='text-white w-full border flex rounded-lg justify-center items-center gap-3 border-white px-6 py-4'>
+                            <Link href={"https://wa.me/6285798805385?text=Saya%20ingin%20bertanya%20tentang%20pendaftaran%20mahasiswa%20baru?"} className='text-white w-full border flex rounded-lg justify-center items-center gap-3 border-white px-6 py-4'>
                                 <BsWhatsapp/>
                                 <p>Whatsapp</p>
                             </Link>

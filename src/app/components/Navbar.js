@@ -117,6 +117,8 @@ export default function NavbarComponent() {
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/dashboard"}>Dashboard</Link>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/profile" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/profile"}>Profile</Link>
                                     <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/rekap-pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/rekap-pendaftaran"}>Rekap Pendaftaran</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/prodi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/prodi"}>Prodi</Link>
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/angkatan" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/angkatan"}>Angkatan</Link>
                                     <button onClick={handleLogout}>Logout</button>
                                 </>
                             ) : (

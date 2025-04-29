@@ -1,32 +1,50 @@
 "use client";
-import { useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
 export default function DaftarProdi() {
   const [selectedTab, setSelectedTab] = useState("D3");
 
-  const dataProgram = {
-    D3: [
-      { name: "D3 Kebidanan", jalur: 4 },
-      { name: "D3 Keperawatan", jalur: 4 },
-    ],
-    S1: [
-      { name: "S1 - Kebidanan", jalur: 5 },
-      { name: "S1 - Ilmu Keperawatan", jalur: 3 },
-    ],
-    Profesi: [
-      { name: "Prof - Pendidikan Profesi Kebinanan", jalur: 2 },
-      { name: "Prof - Profesi Ners", jalur: 2 },
-    ],
-  };
+  const [dataProdi, setDataProdi] = useState({
+    D3: [],
+    S1: [],
+    Profesi: [],
+  })
+
+  useEffect(() => {
+    getProdi()
+  }, [])
+
+  async function getProdi() {
+    const token = Cookies.get('token')
+    const res = await axios.get(`/api/prodi`,
+      {
+          headers: {
+              'Authorization' : `Bearer ${token}`
+          },
+          withCredentials: true
+      },
+  )
+    const filteredD3 = res.data.body.filter((prodi) => prodi.jenjang === "D3")
+    const filteredS1 = res.data.body.filter((prodi) => prodi.jenjang === "S1")
+    const filteredProf = res.data.body.filter((prodi) => prodi.jenjang === "Prof")
+
+    setDataProdi({
+      D3: filteredD3,
+      S1: filteredS1,
+      Profesi: filteredProf,
+    });
+  }
 
   const renderPrograms = (programs) => (
     <div className="flex flex-col gap-4 mt-4">
       {programs.map((program, index) => (
         <div key={index} className="flex justify-between items-center border rounded-md p-4">
           <div>
-            <h2 className="text-md md:text-lg font-semibold">{program.name}</h2>
-            <p className="text-sm text-gray-600">Tersedia {program.jalur} Jalur Pendaftaran</p>
+            <h2 className="text-md md:text-lg font-semibold">{program.jenjang} {program.nama_prodi}</h2>
+            <p className="text-sm text-gray-600">Tersedia {program.banyak_jalur} Jalur Pendaftaran</p>
           </div>
           <button className="border border-blue-900 text-blue-900 font-semibold px-4 py-2 rounded-md hover:bg-blue-900 hover:text-white transition">
             Lihat Detail
@@ -75,7 +93,7 @@ export default function DaftarProdi() {
           </div>
 
           {/* List Program Studi */}
-          {renderPrograms(dataProgram[selectedTab])}
+          {renderPrograms(dataProdi[selectedTab])}
         </div>
       </div>
     </section>

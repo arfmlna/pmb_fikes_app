@@ -18,14 +18,6 @@ export default function Footer() {
                         <Image src={icon} width={70} height={70} alt="icon"/>
                     </div>
                     <div className="flex flex-col lg:gap-y-6 md:gap-y-4 gap-y-2 justify-center items-start">
-                        <h1 className="text-base font-bold text-black">Menu</h1>
-                        <div className="flex flex-col gap-y-1.5 justify-center items-start">
-                            <Link href="/" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Beranda</Link>
-                            <Link href="/pendaftaran" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Pendaftaran</Link>
-                            <Link href="/informasi" className="text-neutral-900 lg:hover:text-black transition lg:hover:font-semibold text-base">Informasi</Link>
-                        </div>
-                    </div>
-                    <div className="flex flex-col lg:gap-y-6 md:gap-y-4 gap-y-2 justify-center items-start">
                         <h1 className="text-base text-black font-bold">Hubungi Kita</h1>
                         <p className="text-neutral-900 text-base max-w-[16rem]">Anda bisa menghubungi kami secara langsung untuk konsultasi.</p>
                         <p className="text-neutral-900 text-base">+62 8564 3722 814</p>
