@@ -86,10 +86,10 @@ export default function ProgramStudi() {
         <div className="border rounded-lg p-6 bg-white shadow flex flex-col gap-2">
           <h2 className="text-lg font-bold">Tata Cara Pendaftaran</h2>
           <ol className="list-decimal list-inside text-gray-600 text-sm mt-2 space-y-1">
-            <li>Pilih jalur pendaftaran</li>
             <li>Lengkapi formulir pendaftaran</li>
+            <li>Konfirmasi Formulir Pendaftaran</li>
             <li>Selesaikan pembayaran formulir</li>
-            <li>Lengkapi berkas dan ikuti seleksi pendaftaran</li>
+            <li>Ikuti seleksi pendaftaran</li>
           </ol>
         </div>
       </div>

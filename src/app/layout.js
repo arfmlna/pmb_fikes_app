@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="./fikesicon.png" sizes="any" />
       </head>
       <body
-        className={`${jostVariable.className} antialiased`}
+        className={`${jostVariable.className} bg-gray-50 antialiased`}
       >
         {children}
       </body>
