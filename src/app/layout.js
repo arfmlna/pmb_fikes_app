@@ -32,5 +32,15 @@ export default function RootLayout({ children }) {
         </body>
       </html>
     </PrimeReactProvider>
+    // <html lang="en">
+    //   <head>
+    //     <link rel="icon" href="./fikesicon.png" sizes="any" />
+    //   </head>
+    //   <body
+    //     className={`${jostVariable.className} bg-gray-50 antialiased`}
+    //   >
+    //     {children}
+    //   </body>
+    // </html>
   );
 }
