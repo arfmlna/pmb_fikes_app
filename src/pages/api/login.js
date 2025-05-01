@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const { email, password } = req.body;
 
         try {
-        const [users] = await connect.query('SELECT * FROM users WHERE email = ?', [email]);
+        const [users] = await connect.query('SELECT users.*, prodi.nama_prodi, angkatan.tahun_angkatan AS tahun_angkatan FROM users LEFT JOIN prodi ON users.id_prodi = prodi.id_prodi LEFT JOIN angkatan ON users.id_angkatan = angkatan.id_angkatan WHERE users.email = ?', [email]);
         const user = users[0];
 
         if (!user) {

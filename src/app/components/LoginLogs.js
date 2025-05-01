@@ -88,7 +88,7 @@ export default function LoginLogs() {
             </Modal>
             <section className="flex w-full items-center justify-center">
                 <div className="xl:max-w-7xl mx-auto w-full bg-white">
-                    <section className="flex flex-col w-full gap-10 justify-center p-10">
+                    <section className="flex flex-col w-full gap-10 justify-center">
                         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold">Login Logs</h1>
                         <div className="flex flex-col justify-center items-start gap-4">
                             <Button onClick={() => getLogsUser(true, id)} className="text-sm md:text-md lg:text-lg font-bold">Lihat Aktivitas Login</Button>

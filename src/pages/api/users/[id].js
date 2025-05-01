@@ -20,12 +20,12 @@ async function handler(req, res) {
             res.status(500).json({ message:"Data berhasil gagal didapat" })
         }
     } else if(req.method === 'PUT'){
-        const { name, email, role } = req.body;
+        const { user_id, name, email, id_prodi, id_angkatan } = req.body;
         if (!id) {
             return res.status(400).json({ message: 'ID diperlukan untuk mengupdate data' });
         }
         try {
-            const [result] = await connect.query('UPDATE users SET name = ?, email = ?, role = ?, created_at = ?, updated_at = ? WHERE id = ?', [name, email, role, now, now, id]);    
+            const [result] = await connect.query('UPDATE users SET user_id = ?, name = ?, email = ?, id_prodi = ?, id_angkatan = ?, created_at = ?, updated_at = ? WHERE id = ?', [user_id, name, email, id_prodi, id_angkatan, now, now, id]);    
             res.status(201).json({ message: 'Pengguna berhasil diupdate!', data: result });
         } catch (error) {
             console.log(error)

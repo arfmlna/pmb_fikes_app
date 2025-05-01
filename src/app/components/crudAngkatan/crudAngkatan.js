@@ -169,7 +169,10 @@ export default function CRUDAngkatan() {
                 </ModalBody>
             </Modal>
             <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-            <DataTable value={dataAngkatan} paginator showGridlines stripedRows rows={5} rowsPerPageOptions={[5, 10, 25, 50]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Angkatan Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}>
+            <DataTable value={dataAngkatan} paginator showGridlines stripedRows rows={5} rowsPerPageOptions={[5, 10, 25, 50]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Angkatan Tidak Tersedia." globalFilter={globalFilter} 
+            header={headerTable} tableStyle={{ minWidth: '50rem' }} className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
+            paginatorClassName='bg-[#fafafa]'
+            rowClassName={(rowData) => rowData.status_pendaftaran === 'buka' ? 'bg-green-500 text-white' : 'bg-white'}>
                 <Column sortable field="id_angkatan" header="ID"></Column>
                 <Column sortable field="tahun_angkatan" header="Tahun Angkatan"></Column>
                 <Column sortable field="status_pendaftaran" header="Status"></Column>

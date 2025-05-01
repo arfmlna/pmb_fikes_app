@@ -4,6 +4,8 @@ import { Alert } from "./Alert";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { CgUser } from "react-icons/cg";
+import LoginLogs from "./LoginLogs";
+import parseData from "./method/GetCookies";
 
 export default function EditUser() {
     const [oldPassword, setOldPassword] = useState("");
@@ -96,8 +98,42 @@ export default function EditUser() {
                 <div className="flex flex-col gap-5 w-full items-center">
                     <div className="bg-white flex flex-col w-full items-center gap-4 p-4 border border-gray-300 rounded-lg">
                         <CgUser className="text-black size-40"/>
-                        <p className="text-base md:text-lg lg:text-xl">Username : </p>
-                        <p className="text-base md:text-lg lg:text-xl">Email : </p>
+                        <table className="ml-16">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl capitalize">Username</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl capitalize">{parseData.name}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Email</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.email}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Role</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.role}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">NIM</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.user_id}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Prodi</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.nama_prodi}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Angkatan</p></td>
+                                    <td>:</td>
+                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.tahun_angkatan}</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <section className="flex flex-col w-full gap-10 justify-center p-10">
                         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold">Perbarui profil anda</h1>
@@ -155,6 +191,8 @@ export default function EditUser() {
                                 Ganti
                             </button>
                         </div>
+
+                        <LoginLogs/>
 
                         {/* Delete Account Section */}
                         <button

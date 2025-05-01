@@ -42,9 +42,9 @@ export default function LoginForm() {
             Alert('Info', 'Login Successful', 'success', 'OK!')
             // Handle successful login (e.g., redirect or store token in localStorage)
             if (response.data.role === "users") {
-                router.replace("/")
+                window.location.replace("/");
             } else {
-                router.replace("/dashboard")
+                window.location.replace("/dashboard");
             }
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");

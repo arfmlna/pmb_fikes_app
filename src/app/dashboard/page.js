@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import DashboardComponent from "../components/dashboard/DashboardComponent";
 import JumlahUser from "../components/dashboard/JumlahUser";
+import CrudUsers from "../components/crudUsers/crudUsers";
+import { Card } from "primereact/card";
 
 export default function Dashboard() {
   const router = useRouter()
@@ -27,7 +29,12 @@ export default function Dashboard() {
           <Fragment>
             <NavbarComponent/>
             <DashboardComponent/>
-            <JumlahUser/>
+            {/* <JumlahUser/> */}
+            <div className="grid grid-cols-2 gap-5 mx-3 md:mx-14 my-20">
+              <Card title="Kelola Users" className="col-span-2">
+                <CrudUsers/>
+              </Card>
+            </div>
           </Fragment>
         )} 
       </Fragment>

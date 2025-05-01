@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 import { AiFillBank } from "react-icons/ai";
@@ -16,7 +17,7 @@ export default function DaftarPengumuman() {
             </div>
             <div className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-3 text-white'>
                 <Link href={"#"} className='group rounded-lg bg-white flex flex-col gap-3 border p-4 hover:border-black transition-all duration-300 ease-out border-gray-300'>
-                    <img src='/labskill.jpg' className='w-full h-full rounded-lg object-cover object-center'/>
+                    <Image width={600} height={600} alt='Daftar Pengumuman' src='/labskill.jpg' className='w-full h-full rounded-lg object-cover object-center'/>
                     <div className='flex flex-col gap-y-1.5'>
                         <h1 className='text-base text-black'>30 April 2025</h1>
                         <h1 className='text-base text-black uppercase font-bold'>Seleksi bebas tes</h1>
