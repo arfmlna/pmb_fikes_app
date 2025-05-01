@@ -5,11 +5,11 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { Card } from 'primereact/card'
 import { Button, Label, Select, TextInput } from 'flowbite-react'
-import parseData from '../components/method/GetCookies'
 import { Alert } from '../components/Alert'
 import { useRouter } from 'next/navigation'
+import parseData from '../components/method/GetCookies'
 
-export default function page() {
+export default function Daftar() {
     const [dataProdi, setDataProdi] = useState([])
     const [dataAngkatan, setAngkatan] = useState([])
 
@@ -86,29 +86,35 @@ export default function page() {
         <>
             <NavbarComponent />
             <div className='mt-10 mx-12'>
-                <Card title="Pendaftaran">
-                    <form className="max-w-sm mx-auto" onSubmit={(e) => handleForm(e)}>
-                        <div className='mb-4'>
-                            <div className="mb-2 block">
-                                <Label htmlFor="angkatan">Angkatan</Label>
+                { parseData.user_id && parseData.id_prodi && parseData ? (
+                    <Card title="Pendaftar[terdaftar]">
+                        <p>selesai</p>
+                    </Card>
+                ) : (
+                    <Card title="Pendaftaran">
+                        <form className="max-w-sm mx-auto" onSubmit={(e) => handleForm(e)}>
+                            <div className='mb-4'>
+                                <div className="mb-2 block">
+                                    <Label htmlFor="angkatan">Angkatan</Label>
+                                </div>
+                                    {dataAngkatan.map((data, i) => (
+                                        <div key={i}>
+                                            <TextInput disabled type="number" required defaultValue={data.tahun_angkatan} />
+                                            <TextInput id="angkatan" name='angkatan' type="hidden" required defaultValue={data.id_angkatan} />
+                                        </div>
+                                    ))}
                             </div>
-                                {dataAngkatan.map((data, i) => (
-                                    <div key={i}>
-                                        <TextInput disabled type="number" required defaultValue={data.tahun_angkatan} />
-                                        <TextInput id="angkatan" name='angkatan' type="hidden" required defaultValue={data.id_angkatan} />
-                                    </div>
-                                ))}
-                        </div>
-                        <div className='mb-4'>
-                            <label htmlFor="prodi" className="block mb-2 text-sm font-medium text-gray-900">Pilih Prodi</label>
-                            <Select id="prodi" name='prodi' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option defaultValue="">Pilih Prodi</option>
-                                {dataProdi.map((data, i) => <option key={i} value={data.id_prodi}>{data.nama_prodi}</option>)}
-                            </Select>
-                        </div>
-                        <Button type='submit'>SUBMIT</Button>
-                    </form>
-                </Card>
+                            <div className='mb-4'>
+                                <label htmlFor="prodi" className="block mb-2 text-sm font-medium text-gray-900">Pilih Prodi</label>
+                                <Select id="prodi" name='prodi' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option value="">Pilih Prodi</option>
+                                    {dataProdi.map((data, i) => <option key={i} value={data.id_prodi}>{data.nama_prodi}</option>)}
+                                </Select>
+                            </div>
+                            <Button type='submit'>SUBMIT</Button>
+                        </form>
+                    </Card>
+                ) }
             </div>
         </>
     )

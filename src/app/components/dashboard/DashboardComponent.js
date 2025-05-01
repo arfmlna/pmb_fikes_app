@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaJs, FaUser, FaUserCheck } from "react-icons/fa";
 import { RiBarChart2Fill } from "react-icons/ri";
-import { FaRegHourglassHalf} from "react-icons/fa6";
+import { FaRegHourglassHalf, FaUserXmark} from "react-icons/fa6";
 import { CgWebsite } from "react-icons/cg";
 import { IoLogoAndroid } from "react-icons/io";
 import Cookies from 'js-cookie';
@@ -195,11 +195,18 @@ export default function DashboardComponent() {
     <>
         <section className='flex flex-col w-full justify-start items-start py-10 md:px-10 px-4 gap-5'>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full items-center justify-center gap-5'>
-                <div className='flex justify-start w-auto p-4 hover:bg-blue-900 group bg-transparent transition-all duration-150 ease-out rounded-lg items-center gap-5'>
+                {/* <div className='flex justify-start w-auto p-4 hover:bg-blue-900 group bg-transparent transition-all duration-150 ease-out rounded-lg items-center gap-5'>
                     <RiBarChart2Fill className='w-10 h-10 group-hover:text-white text-black flex-shrink-0'/>
                     <div className='flex flex-col justify-start items-start gap-1'>
                         <p className='text-base group-hover:text-white text-black'>Total Pendapatan</p>
                         <p className='text-xl font-bold group-hover:text-white text-black'>Rp. 0</p>
+                    </div>
+                </div> */}
+                <div className='flex justify-start w-auto p-4 hover:bg-blue-900 group bg-transparent transition-all duration-150 ease-out rounded-lg items-center gap-5'>
+                    <FaUserXmark className='w-10 h-10 group-hover:text-white text-black flex-shrink-0'/>
+                    <div className='flex flex-col justify-start items-start gap-1'>
+                        <p className='text-base group-hover:text-white text-black'>Belum Mendaftar</p>
+                        <p className='text-xl font-bold group-hover:text-white text-black'>{getData.belum_daftar.length}</p>
                     </div>
                 </div>
                 <div className='flex justify-start w-auto p-4 hover:bg-blue-900 group bg-transparent transition-all duration-150 ease-out rounded-lg items-center gap-5'>
@@ -219,21 +226,21 @@ export default function DashboardComponent() {
             </div>
         </section>
         <div className='grid grid-cols-3 gap-5 mx-3 md:mx-14 mt-20'>
-            <Card title="Statistik Pengunjung" className='col-span-3 md:col-span-1 flex items-center justify-center drop-shadow-2xl'>
+            <Card title="Statistik Pengunjung" className='col-span-3 md:col-span-1 flex items-center justify-center drop-shadow-2xl hover:scale-105'>
             {chartDataPengguna?.datasets?.length > 0 ? (
                 <Chart type="bar" data={chartDataPengguna} options={chartOptionsPengguna} />
             ) : (
                 <p>Memuat data grafik...</p>
             )}
             </Card>
-            <Card title="Statistik Role Model" className='col-span-3 md:col-span-1 flex items-center justify-center drop-shadow-2xl'>
+            <Card title="Statistik Role Model" className='col-span-3 md:col-span-1 flex items-center justify-center drop-shadow-2xl hover:scale-105'>
             {chartDataRole?.datasets?.length > 0 ? (
                 <Chart type="doughnut" data={chartDataRole} options={chartOptionsRole} className='h-64'/>
             ) : (
                 <p>Memuat data grafik...</p>
             )}
             </Card>
-            <Card title="Statistik Prodi Pilihan" className='col-span-3 md:col-span-1 drop-shadow-2xl'>
+            <Card title="Statistik Prodi Pilihan" className='col-span-3 md:col-span-1 drop-shadow-2xl hover:scale-105'>
             {chartDataRole?.datasets?.length > 0 ? (
                 <Chart type="polarArea" data={chartDataProdi} options={chartOptionsProdi}/>
             ) : (
