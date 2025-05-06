@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Bulan Mei 2025 pada 01.47
+-- Waktu pembuatan: 06 Bulan Mei 2025 pada 09.23
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.1.17
 
@@ -43,6 +43,32 @@ INSERT INTO `angkatan` (`id_angkatan`, `tahun_angkatan`, `status_pendaftaran`) V
 (3, 2024, 'tutup'),
 (4, 2025, 'tutup'),
 (5, 2026, 'buka');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `dokumen_pendaftaran`
+--
+
+CREATE TABLE `dokumen_pendaftaran` (
+  `id` int(11) NOT NULL,
+  `user_id` char(9) NOT NULL,
+  `ijazah` varchar(255) NOT NULL,
+  `skhu` varchar(255) NOT NULL,
+  `nilai_rapot` varchar(255) NOT NULL,
+  `sertifikat` varchar(255) NOT NULL,
+  `ktp` varchar(255) NOT NULL,
+  `kk` varchar(255) NOT NULL,
+  `foto` varchar(255) NOT NULL,
+  `dokumen_lain` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `dokumen_pendaftaran`
+--
+
+INSERT INTO `dokumen_pendaftaran` (`id`, `user_id`, `ijazah`, `skhu`, `nilai_rapot`, `sertifikat`, `ktp`, `kk`, `foto`, `dokumen_lain`) VALUES
+(1, 'FKS000006', '/api/filename/1746249761386-SRS_WebFikes_Arif Maulana_C2283207029.pdf', '/api/filename/1746249761389-1. PENGANTAR SI.pdf', '/api/filename/1746249761392-2. PRINSIP DASAR ANALISIS SI.pdf', '/api/filename/1746249761395-3. IDENTIFIKASI MASALAH SI.pdf', '/api/filename/1746249761399-4. PENGOLAHAN ANALISIS SI.pdf', '/api/filename/1746249761402-5. ANALISIS KELEMAHAN SI.pdf', '/api/filename/1746249761407-6. ANALISIS SWOT SI.pdf', '/api/filename/1746249761409-7. ANALISIS PIECES.pdf');
 
 -- --------------------------------------------------------
 
@@ -103,7 +129,79 @@ INSERT INTO `login_logs` (`id`, `user_id`, `login_time`) VALUES
 (42, 'FKS000003', '2025-04-30 20:11:27'),
 (43, 'FKS000004', '2025-04-30 20:19:40'),
 (44, 'FKS000001', '2025-04-30 20:20:35'),
-(45, 'FKS000004', '2025-04-30 20:34:14');
+(45, 'FKS000004', '2025-04-30 20:34:14'),
+(47, 'FKS000001', '2025-05-01 06:49:27'),
+(48, 'FKS000002', '2025-05-01 16:13:41'),
+(50, 'FKS000002', '2025-05-01 16:24:09'),
+(51, 'FKS000001', '2025-05-01 17:18:58'),
+(52, 'FKS000006', '2025-05-02 14:48:52'),
+(53, 'FKS000006', '2025-05-02 19:42:32'),
+(54, 'FKS000001', '2025-05-03 10:51:05'),
+(55, 'FKS000006', '2025-05-03 11:44:13'),
+(56, 'FKS000006', '2025-05-04 10:54:55'),
+(57, 'FKS000006', '2025-05-04 12:16:08'),
+(59, 'FKS000001', '2025-05-05 02:17:10'),
+(61, 'FKS000001', '2025-05-05 15:50:41'),
+(62, 'FKS000006', '2025-05-06 07:50:07');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pembayaran`
+--
+
+CREATE TABLE `pembayaran` (
+  `id` int(11) NOT NULL,
+  `user_id` char(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total` int(11) NOT NULL,
+  `bukti_pembayaran` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`id`, `user_id`, `total`, `bukti_pembayaran`) VALUES
+(1, 'FKS000006', 104000, '1746508380282-Screenshot_20241015-114330.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pendaftaran`
+--
+
+CREATE TABLE `pendaftaran` (
+  `id_pendaftaran` bigint(20) NOT NULL,
+  `id_user` char(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_seleksi` int(11) NOT NULL,
+  `nama_lengkap` varchar(255) NOT NULL,
+  `no_hp` char(50) NOT NULL,
+  `tgl_lahir` date NOT NULL,
+  `kewarganegaraan` varchar(255) NOT NULL,
+  `nama_ortu` varchar(255) NOT NULL,
+  `jenis_kelamin` enum('laki-laki','perempuan') NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `tmpt_lahir` varchar(255) NOT NULL,
+  `nik_ktp` varchar(16) NOT NULL,
+  `no_hp_ortu` char(50) NOT NULL,
+  `provinsi` varchar(255) NOT NULL,
+  `jenis_sekolah` varchar(255) NOT NULL,
+  `jurusan_sekolah` varchar(255) NOT NULL,
+  `alamat_sekolah` varchar(255) NOT NULL,
+  `nama_sekolah` varchar(255) NOT NULL,
+  `tahun_lulus` year(4) NOT NULL,
+  `prodi1` varchar(255) NOT NULL,
+  `prodi2` varchar(255) NOT NULL,
+  `konfirmasi` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pendaftaran`
+--
+
+INSERT INTO `pendaftaran` (`id_pendaftaran`, `id_user`, `id_seleksi`, `nama_lengkap`, `no_hp`, `tgl_lahir`, `kewarganegaraan`, `nama_ortu`, `jenis_kelamin`, `email`, `tmpt_lahir`, `nik_ktp`, `no_hp_ortu`, `provinsi`, `jenis_sekolah`, `jurusan_sekolah`, `alamat_sekolah`, `nama_sekolah`, `tahun_lulus`, `prodi1`, `prodi2`, `konfirmasi`) VALUES
+(1, 'FKS000006', 2, 'Andi', '085798805385', '2003-04-28', 'Indonesia', 'Andi mama', 'laki-laki', 'andi@gmail.com', 'Tasikmalaya', '35-76-01-44-03-9', '081563901981', 'Jawa Barat', 'SMK', 'RPL', 'Kota Tasikmalaya', 'SMKN 4 TSM', '2022', '1', '2', 1),
+(9, 'FKS000002', 1, 'test1', '081563901981', '2025-04-28', 'Indonesia', 'test1', 'perempuan', 'test1@gmail.com', 'Tasikmalaya', 'KHKLGIGVKG', '081563901981', 'Jawa Barat', 'SMA', 'RPL', 'Kota Tasikmalaya', 'SMKN 4 Tasikmalaya', '2025', '5', '6', 0);
 
 -- --------------------------------------------------------
 
@@ -124,7 +222,7 @@ CREATE TABLE `prodi` (
 
 INSERT INTO `prodi` (`id_prodi`, `jenjang`, `nama_prodi`, `banyak_jalur`) VALUES
 (1, 'S1', 'Ilmu Keperawatan', 2),
-(2, 'D3', 'Keperawatan', 5),
+(2, 'D3', 'keperawatan', 2),
 (3, 'S1', 'Kebidanan', 3),
 (4, 'D3', 'Kebidanan', 4),
 (5, 'Prof', 'Profesi Ners', 2),
@@ -139,8 +237,20 @@ INSERT INTO `prodi` (`id_prodi`, `jenjang`, `nama_prodi`, `banyak_jalur`) VALUES
 CREATE TABLE `prodi_seleksi` (
   `id` int(11) NOT NULL,
   `id_prodi` bigint(20) NOT NULL,
-  `id_seleksi` int(11) NOT NULL
+  `id_seleksi` int(11) NOT NULL,
+  `mulai` date NOT NULL DEFAULT current_timestamp(),
+  `selesai` date NOT NULL DEFAULT current_timestamp(),
+  `harga` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `prodi_seleksi`
+--
+
+INSERT INTO `prodi_seleksi` (`id`, `id_prodi`, `id_seleksi`, `mulai`, `selesai`, `harga`) VALUES
+(1, 1, 1, '2025-05-05', '2025-05-05', 300000),
+(2, 4, 4, '2025-05-05', '2025-05-31', 400000),
+(4, 2, 2, '2025-12-30', '2025-05-31', 300000);
 
 -- --------------------------------------------------------
 
@@ -153,6 +263,15 @@ CREATE TABLE `seleksi` (
   `nama_seleksi` varchar(255) NOT NULL,
   `tahun` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `seleksi`
+--
+
+INSERT INTO `seleksi` (`id_seleksi`, `nama_seleksi`, `tahun`) VALUES
+(1, 'Tes Mandiri Seleksi', '2025'),
+(2, 'Beasiswa Seleksi', '2025'),
+(4, 'Non Tes PMDK', '2025');
 
 -- --------------------------------------------------------
 
@@ -178,18 +297,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `name`, `email`, `password`, `role`, `id_prodi`, `id_angkatan`, `created_at`, `updated_at`) VALUES
-('FKS000001', 'K000001', 'admin', 'admin@gmail.com', '$2b$10$00p04Vf1m0YIjvHLLxfAdezoOai0WqGbrUna7pCHcKRGx91e2.HOa', 'admin', 1, 1, '2025-04-14 08:01:24', '2025-04-14 08:24:33'),
-('FKS000002', 'K000002', 'test', 'test@gmail.com', '$2b$10$RjalrWQiBYKCbmhdlUkkk.0TFbCYlDmHQGVvHIimMFCi8O3Tyzuf6', 'users', 5, 5, '2025-04-30 04:42:41', '2025-04-30 04:42:41'),
+('FKS000001', NULL, 'admin', 'admin@gmail.com', '$2b$10$00p04Vf1m0YIjvHLLxfAdezoOai0WqGbrUna7pCHcKRGx91e2.HOa', 'admin', NULL, NULL, '2025-04-14 08:01:24', '2025-04-14 08:24:33'),
+('FKS000002', 'K000002', 'test', 'test@gmail.com', '$2b$10$RjalrWQiBYKCbmhdlUkkk.0TFbCYlDmHQGVvHIimMFCi8O3Tyzuf6', 'users', 1, 5, '2025-05-01 05:57:07', '2025-05-01 05:57:07'),
 ('FKS000003', 'K000003', 'hitlers', 'hitler@gmail.com', '$2b$10$LVcsYobkH7L0yo.sgAcpaeKswpPzfJGoVzMSQ8oqaxyddsXa04ADW', 'users', 6, 5, '2025-04-30 13:18:57', '2025-04-30 13:18:57'),
 ('FKS000004', 'K000004', 'Jinshi', 'jinshi@gmail.com', '$2b$10$Y2RfLn9T46u90jK3lib2MOG62cnGuoJTuhUNkvEiSt.7d2JXg006G', 'users', 1, 5, '2025-04-30 13:19:27', '2025-04-30 13:19:27'),
 ('FKS000005', 'K000005', 'popura', 'popura@gmail.com', '$2b$10$sNSDPDx3RLanmmx0bVFhYuZBYp1op0znhMxXoDL21tWmL4DQecqu.', 'users', 4, 1, '2025-04-29 19:49:44', '2025-04-29 19:49:44'),
-('FKS000006', 'K000008', 'vivian', 'vivian@gmail.com', '$2b$10$hfdoZ/xosOgR0dhK43mpguaJntahkuNWVFLVJAbCGSb9LEmbaQOVO', 'users', 2, 2, '2025-04-29 21:08:20', '2025-04-29 21:08:20'),
-('FKS000007', 'K000009', 'tartarus', 'tartarus@gmail.com', '$2b$10$NdGdfl8lx.Pz6bK4rlLn.eyQ9TIRywpXcdt7IqaKjBBg3m35AQY0W', 'users', 3, 3, '2025-04-29 21:19:56', '2025-04-29 21:19:56'),
-('FKS000008', 'K000011', 'omni-man', 'omniman@gmail.com', '$2b$10$ef48Ns7rJH0OnV5sPP9CYuUIOVx.R8ZlQqd6RFMlrTp4ZqNDz5w7S', 'users', 4, 4, '2025-04-29 21:20:43', '2025-04-29 21:20:43'),
-('FKS000009', 'K000010', 'pom-pom', 'pom2@gmail.com', '$2b$10$VWYREO44wLQdO5Lspz.HBuYn9ebl/cGC13EUxOzPAmK.1iiRKyZDy', 'users', 6, 4, '2025-04-29 21:29:39', '2025-04-29 21:29:39'),
-('FKS000010', NULL, 'dontol', 'pen!s@gmail.com', '$2b$10$kdCkGMdfpoZQtyhm9aWA6OIb.r/qoQZVgKowirfjxBPTqoa1zyRKK', 'users', NULL, NULL, '2025-04-29 21:31:08', '2025-04-29 21:31:08'),
-('FKS000011', NULL, 'Husni Firdaus', 'husni@gmail.com', '$2b$10$i7OTqosD1.CP.X.5a55JVOi0tGMl3cQZXdS9ZC.3PUkxF9fZXoYBC', 'users', NULL, NULL, '2025-04-29 21:37:02', '2025-04-29 21:37:02'),
-('FKS000012', NULL, 'inertia', 'inertia@gmail.com', '$2b$10$WeInPLUsAoO17iii9zNky.Nlx0RrhDdIB4sYYxIQ/gaO8h4EPtUYW', 'users', NULL, NULL, '2025-04-29 21:40:31', '2025-04-29 21:40:31');
+('FKS000006', NULL, 'inertia', 'inertia@gmail.com', '$2b$10$WeInPLUsAoO17iii9zNky.Nlx0RrhDdIB4sYYxIQ/gaO8h4EPtUYW', 'users', NULL, NULL, '2025-04-29 21:40:31', '2025-04-29 21:40:31'),
+('FKS000007', NULL, 'adminx', 'adminx@gmail.com', '$2b$10$uPML5.0Yod362.xItuLYQuoZWivwqGU0P.1u2rBBysM1g8tO64Cx6', 'admin', NULL, NULL, '2025-05-01 08:35:56', '2025-05-01 08:35:56'),
+('FKS000008', NULL, 'myadmin', 'myadm@gmail.com', '$2b$10$fac9YcOa5ej58pVCtGuZkuF1fNQ7LjqPYGi1HwKeZNNFxdhOE1c7.', 'admin', NULL, NULL, '2025-05-01 08:39:11', '2025-05-01 08:39:11');
 
 --
 -- Indexes for dumped tables
@@ -202,11 +317,33 @@ ALTER TABLE `angkatan`
   ADD PRIMARY KEY (`id_angkatan`);
 
 --
+-- Indeks untuk tabel `dokumen_pendaftaran`
+--
+ALTER TABLE `dokumen_pendaftaran`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`);
+
+--
 -- Indeks untuk tabel `login_logs`
 --
 ALTER TABLE `login_logs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`) USING BTREE;
+
+--
+-- Indeks untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indeks untuk tabel `pendaftaran`
+--
+ALTER TABLE `pendaftaran`
+  ADD PRIMARY KEY (`id_pendaftaran`),
+  ADD UNIQUE KEY `id_user` (`id_user`) USING BTREE,
+  ADD KEY `id_seleksi` (`id_seleksi`);
 
 --
 -- Indeks untuk tabel `prodi`
@@ -243,32 +380,68 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `dokumen_pendaftaran`
+--
+ALTER TABLE `dokumen_pendaftaran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT untuk tabel `login_logs`
 --
 ALTER TABLE `login_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `pendaftaran`
+--
+ALTER TABLE `pendaftaran`
+  MODIFY `id_pendaftaran` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `prodi_seleksi`
 --
 ALTER TABLE `prodi_seleksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `seleksi`
 --
 ALTER TABLE `seleksi`
-  MODIFY `id_seleksi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_seleksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
+-- Ketidakleluasaan untuk tabel `dokumen_pendaftaran`
+--
+ALTER TABLE `dokumen_pendaftaran`
+  ADD CONSTRAINT `dokumen_pendaftaran_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Ketidakleluasaan untuk tabel `login_logs`
 --
 ALTER TABLE `login_logs`
   ADD CONSTRAINT `login_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pembayaran`
+--
+ALTER TABLE `pembayaran`
+  ADD CONSTRAINT `pembayaran_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pendaftaran`
+--
+ALTER TABLE `pendaftaran`
+  ADD CONSTRAINT `pendaftaran_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `prodi_seleksi`
