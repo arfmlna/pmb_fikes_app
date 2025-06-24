@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import NavbarComponent from '../components/Navbar'
 import Footer from '../components/Footer'
 import DetailPembayaran from '../components/pembayaran/DetailPembayaran';
@@ -10,7 +10,9 @@ export default function Pembayaran() {
     <>
         <NavbarComponent/>
         <NavigatingInfoPembayaran/>
-        <DetailPembayaran/>
+        <Suspense fallback={<div>Loading...</div>}>
+          <DetailPembayaran/>
+        </Suspense>
         <Banner/>
         <Footer/>
     </>

@@ -1,5 +1,5 @@
 import authenticateToken from "./auth";
-import connect from "../connect";
+import connect from "../../lib/connect";
 import bcrypt from 'bcryptjs'
 
 async function handler(req, res) {

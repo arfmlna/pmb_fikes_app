@@ -1,7 +1,9 @@
 import React from 'react'
 import NavbarComponent from '../components/Navbar'
 import 'primeicons/primeicons.css';
-import CRUDAngkatan from '../components/crudAngkatan/crudAngkatan';
+import dynamic from 'next/dynamic';
+
+const CRUDAngkatan = dynamic(() => import('../components/crudAngkatan/crudAngkatan'));
 
 export default function Alumni() {
   return (

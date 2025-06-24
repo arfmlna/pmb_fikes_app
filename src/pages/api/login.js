@@ -1,4 +1,4 @@
-import connect from '../connect';
+import connect from '../../lib/connect';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 

@@ -145,7 +145,7 @@ export default function CrudAdmins() {
     return (
         <div className='mx-10 mt-10'>
             <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                <ModalHeader>Menambahkan Admn</ModalHeader>
+                <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Admin</ModalHeader>
                 <ModalBody>
                     <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                         <div>
@@ -177,12 +177,12 @@ export default function CrudAdmins() {
                 </ModalBody>
             </Modal>
             <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-            <DataTable value={dataUsers} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
+            <DataTable value={dataUsers} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='large' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
             className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
             paginatorClassName='bg-[#fafafa]'>
                 <Column sortable field="name" header="Nama"></Column>
                 <Column sortable field="email" header="Email"></Column>
-                <Column sortable header="Action" body={(rowData) => actionButton(rowData.id, rowData.name, rowData.email)}></Column>
+                <Column header="Action" body={(rowData) => actionButton(rowData.id, rowData.name, rowData.email)}></Column>
             </DataTable>
         </div>
     )

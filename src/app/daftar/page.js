@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import React, { Suspense } from 'react'
 import NavbarComponent from '../components/Navbar'
 import Footer from '../components/Footer'
 import PendaftaranForm from '../components/daftar/PendaftaranForm'
@@ -10,7 +11,9 @@ export default function DaftarPage() {
     <>
         <NavbarComponent/>
         <NavigatingInfoDaftar/>
-        <PendaftaranForm/>
+        <Suspense fallback={<p>Loading...</p>}>
+          <PendaftaranForm/>
+        </Suspense>
         <Banner/>
         <Footer/>
     </>

@@ -1,16 +1,22 @@
 'use client'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
 import parseData from '../method/GetCookies'
 import Cookies from 'js-cookie'
-import tgl from '../method/formatTgl'
-import { useRouter } from 'next/navigation'
+import { tgl } from '../method/formatTgl'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Alert } from '../Alert'
 
 export default function KonfirmasiPendaftaranForm() {
     const [getDataPendaftaran, setDataPendaftaran] = useState([])
+    const checkboxRef = useRef(null);
 
     const router = useRouter()
+
+    const searchParams = useSearchParams();
+    const idPendaftaran = searchParams.get('id_pendaftaran');
+    const id_seleksi = searchParams.get('id_seleksi');
 
     useEffect(() => {
         getPendaftaran()
@@ -148,13 +154,13 @@ export default function KonfirmasiPendaftaranForm() {
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Scan Ijazah SMA/SMK/MAN (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.ijazah} target="_blank" className="text-blue-600 underline">Lihat Ijazah</a>
+                                                File : <a href={`api/filename/${data.ijazah}`} target="_blank" className="text-blue-600 underline">Lihat Ijazah</a>
                                             </p>
                                         </div>  
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Scan SKHU / Nilai UN / Surat Keterangan Lulus (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.skhu} target="_blank" className="text-blue-600 underline">Lihat SKHU</a>
+                                                File : <a href={`api/filename${data.skhu}`} target="_blank" className="text-blue-600 underline">Lihat SKHU</a>
                                             </p>
                                         </div>
                                     </div>
@@ -162,13 +168,13 @@ export default function KonfirmasiPendaftaranForm() {
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Scan Transkip Nilai / Daftar Nilai Rapor (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.nilai_rapot} target="_blank" className="text-blue-600 underline">Lihat Nilai Rapot</a>
+                                                File : <a href={`api/filename/${data.nilai_rapot}`} target="_blank" className="text-blue-600 underline">Lihat Nilai Rapot</a>
                                             </p>
                                         </div>
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Sertifikat / Ijazah / Transkip Nilai dari Pendidikan Sebelumnya (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.sertifikat} target="_blank" className="text-blue-600 underline">Lihat Sertifikat</a>
+                                                File : <a href={`api/filename/${data.sertifikat}`} target="_blank" className="text-blue-600 underline">Lihat Sertifikat</a>
                                             </p>
                                         </div>
                                     </div>
@@ -182,13 +188,13 @@ export default function KonfirmasiPendaftaranForm() {
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Scan KTP / Bukti Sedang Proses (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.ktp} target="_blank" className="text-blue-600 underline">Lihat KTP</a>
+                                                File : <a href={`api/filename/${data.ktp}`} target="_blank" className="text-blue-600 underline">Lihat KTP</a>
                                             </p>
                                         </div>
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Scan Kartu Keluarga (KK) (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.kk} target="_blank" className="text-blue-600 underline">Lihat KK</a>
+                                                File : <a href={`api/filename/${data.kk}`} target="_blank" className="text-blue-600 underline">Lihat KK</a>
                                             </p>
                                         </div>
                                     </div>
@@ -196,13 +202,13 @@ export default function KonfirmasiPendaftaranForm() {
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Pas Foto Ukuran 3x4 cm (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.foto} target="_blank" className="text-blue-600 underline">Lihat foto</a>
+                                                File : <a href={`api/filename/${data.foto}`} target="_blank" className="text-blue-600 underline">Lihat foto</a>
                                             </p>
                                         </div>
                                         <div className='flex flex-col justify-center gap-2 w-full'>
                                             <label className='text-white'>Dokumen Lain (Prestasi, Rekomendasi, dll) (.pdf) : </label>
                                             <p className="text-sm text-white mb-1">
-                                                File : <a href={data.skhu} target="_blank" className="text-blue-600 underline">Lihat Dokumen Lain</a>
+                                                File : <a href={`api/filename/${data.skhu}`} target="_blank" className="text-blue-600 underline">Lihat Dokumen Lain</a>
                                             </p>
                                         </div>
                                     </div>
@@ -228,17 +234,21 @@ export default function KonfirmasiPendaftaranForm() {
                             </div>
                             <div className='flex justify-between items-center w-full border-t border-t-gray-300 gap-3 pt-5  mt-5'>
                                 <div className='flex justify-start items-center gap-3 w-full'>
-                                    <input type='checkbox'/>
+                                    <input type='checkbox' required ref={checkboxRef} />
                                     <p className="text-base flex-shrink-0 text-left text-white">Saya menyetujui bahwa data yang telah dimasukkan adalah Benar dan dapat dipertanggungjawabkan.</p>
                                 </div>
                                 <div className='flex justify-end gap-3 w-full'>
                                     <button className='flex items-center group gap-2 bg-white px-6 py-3 rounded-lg text-black' onClick={() => {
-                                        router.back()
+                                        router.replace(`/daftar?id_seleksi=${data.id_seleksi}&nama_seleksi${data.nama_seleksi}`)
                                     }}>
                                         <BsArrowLeft className='group-hover:-translate-x-1 transition-all ease-out'/><p>Ubah Data</p>
                                     </button>
-                                    <button className='flex items-center group gap-2 bg-white px-6 py-3 rounded-lg text-black' onClick={() => {
-                                        router.replace('/pembayaran')
+                                    <button type='submit' className='flex items-center group gap-2 bg-white px-6 py-3 rounded-lg text-black' onClick={() => {
+                                        if (checkboxRef.current?.checked) {
+                                            router.replace(`/pembayaran?id_pendaftaran=${idPendaftaran}&id_seleksi=${id_seleksi}`)
+                                        } else {
+                                            Alert("Info", "Centang Terlebih Dahulu Persetujuannya", "warning", "OK")
+                                        }
                                     }}>
                                         <p>Daftar Sekarang</p><BsArrowRight className='group-hover:translate-x-1 transition-all ease-out'/>
                                     </button>

@@ -1,4 +1,4 @@
-import connect from "@/pages/connect";
+import connect from "@/lib/connect";
 import authenticateToken from "../auth";
 
 async function handler(req, res){
@@ -9,15 +9,27 @@ async function handler(req, res){
             return res.status(400).json({ message: "prodi dan angkatan harus disertakan." });
         }
         try {
-            const [maxResultID] = await connect.query('SELECT MAX(CAST(SUBSTRING(user_id, 4) AS UNSIGNED)) AS max_id FROM users');
-            const lastId = maxResultID[0]?.max_id || 0;
-            const newIdNumber = lastId + 1;
-            const paddedId = String(newIdNumber).padStart(6, "0");
-            const newId = `K${paddedId}`;
+            const [angkatanResult] = await connect.query(
+                'SELECT tahun_angkatan FROM angkatan WHERE id_angkatan = ?',
+                [angkatan]
+            );
+            if (angkatanResult.length === 0) {
+                return res.status(404).json({ message: "Angkatan tidak ditemukan." });
+            }
+            const kodeAngkatan = String(angkatanResult[0].tahun_angkatan).slice(-2);
+            const kodeProdi = String(prodi).padStart(2, '0');
+            const [countResult] = await connect.query(`
+                SELECT COUNT(*) AS total 
+                FROM users 
+                WHERE id_prodi = ? AND id_angkatan = ?
+            `, [prodi, angkatan]);
+            const count = countResult[0]?.total || 0;
+            const counter = String(count + 1).padStart(2, '0');
+            const newUserId = `K${kodeAngkatan}${kodeProdi}${counter}`;
             
-            const [result] = await connect.query('update users set user_id = ?, id_prodi = ?, id_angkatan = ? where id = ?', [newId, prodi, angkatan, id]);
+            const [result] = await connect.query('update users set user_id = ?, id_prodi = ?, id_angkatan = ? where id = ?', [newUserId, prodi, angkatan, id]);
 
-            const [users] = await connect.query('SELECT users.*, prodi.nama_prodi, angkatan.tahun_angkatan AS tahun_angkatan FROM users LEFT JOIN prodi ON users.id_prodi = prodi.id_prodi LEFT JOIN angkatan ON users.id_angkatan = angkatan.id_angkatan WHERE users.user_id = ?', [newId]);
+            const [users] = await connect.query('SELECT users.*, prodi.nama_prodi, angkatan.tahun_angkatan AS tahun_angkatan FROM users LEFT JOIN prodi ON users.id_prodi = prodi.id_prodi LEFT JOIN angkatan ON users.id_angkatan = angkatan.id_angkatan WHERE users.user_id = ?', [newUserId]);
             const user = users[0];
             const data = JSON.stringify(user)
 

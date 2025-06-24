@@ -1,4 +1,4 @@
-import connect from "../connect"
+import connect from "../../lib/connect"
 import authenticateToken from "./auth"
 
 async function handler(req, res){
@@ -10,9 +10,9 @@ async function handler(req, res){
             res.status(500).json({ message:"Data berhasil gagal didapat" })
         }
     } else if (req.method === 'POST'){
-            const { nama_seleksi, tahun } = req.body;
+            const { nama_seleksi } = req.body;
             try {
-                const [result] = await connect.query('INSERT INTO seleksi (nama_seleksi, tahun) VALUES (?, ?)', [nama_seleksi, tahun]);    
+                const [result] = await connect.query('INSERT INTO seleksi (nama_seleksi) VALUES (?)', [nama_seleksi]);    
                 res.status(201).json({ message: 'Berhasil ditambahkan!', data: result });
             } catch (error) {
                 console.log(error)

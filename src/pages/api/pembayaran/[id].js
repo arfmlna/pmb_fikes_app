@@ -1,4 +1,4 @@
-import connect from "@/pages/connect";
+import connect from "@/lib/connect";
 import authenticateToken from "../auth";
 
 async function handler(req, res){
@@ -6,16 +6,16 @@ async function handler(req, res){
     if(req.method === 'GET'){
         try {
             
-            const [result] = await connect.query(`SELECT * FROM pembayaran WHERE id = ?`, [id]);
+            const [result] = await connect.query(`SELECT * FROM pembayaran WHERE user_id = ?`, [id]);
             res.status(201).json({ message: 'Berhasil ditambahkan!', body: result});
         } catch (error) {
             console.log(error)
             res.status(500).json({ message:"Gagal ditambahkan" })
         }
     } else if (req.method === 'POST') {
-        const { user_id, total, bukti_pembayaran } = req.body;
+        const { id_pendaftaran, user_id, total, bukti_pembayaran } = req.body;
         try {
-            const [result] = await connect.query('INSERT INTO pembayaran (user_id, total, bukti_pembayaran) VALUES (?,?,?)', [user_id, total, bukti_pembayaran]);
+            const [result] = await connect.query('INSERT INTO pembayaran (id_pendaftaran, user_id, total, bukti_pembayaran) VALUES (?,?,?,?)', [id_pendaftaran, user_id, total, bukti_pembayaran]);
             res.status(201).json({ message: 'Berhasil ditambahkan!', body: result});
             await connect.query('UPDATE pendaftaran set konfirmasi = 1 WHERE id_user = ?', [user_id])
         } catch (error) {

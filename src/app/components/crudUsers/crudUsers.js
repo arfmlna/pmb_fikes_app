@@ -10,6 +10,7 @@ import { Button } from 'primereact/button';
 import { Label, Modal, ModalBody, ModalHeader, Select, TextInput } from 'flowbite-react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Pagination } from '../method/Pagination';
 
 export default function CrudUsers() {
     const [dataProdi, setDataProdi] = useState([])
@@ -191,10 +192,13 @@ export default function CrudUsers() {
             </div>
         )
     }
+
+    const pages = Pagination(dataUsers.length, 10)
+
     return (
-        <div className='mx-10 mt-10'>
+        <div className='mx-1 md:mx-10 mt-10'>
             <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                <ModalHeader>Menambahkan Users</ModalHeader>
+                <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Users</ModalHeader>
                 <ModalBody>
                     <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                         <div>
@@ -251,15 +255,16 @@ export default function CrudUsers() {
                 </ModalBody>
             </Modal>
             <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-            <DataTable value={dataUsers} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
+            <DataTable value={dataUsers} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={pages} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='normal' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
             className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
             paginatorClassName='bg-[#fafafa]'>
+                <Column sortable field="id" header="ID"></Column>
                 <Column sortable body={(rowData) => rowData.user_id !== null && rowData.user_id !== undefined ? rowData.user_id : <p className='text-yellow-300'>Belum Daftar</p>} field="user_id" header="NIM"></Column>
                 <Column sortable field="name" header="Nama"></Column>
                 <Column sortable field="email" header="Email"></Column>
                 <Column sortable body={(rowData) => rowData.nama_prodi !== null && rowData.nama_prodi !== undefined ? rowData.nama_prodi : <p className='text-yellow-300'>Belum Pilih Prodi</p>} field="nama_prodi" header="Prodi"></Column>
                 <Column sortable body={(rowData) => rowData.tahun_angkatan !== null && rowData.tahun_angkatan !== undefined ? rowData.tahun_angkatan : <p className='text-yellow-300'>Belum Daftar</p>} field="tahun_angkatan" header="Angkatan"></Column>
-                <Column sortable header="Action" body={(rowData) => actionButton(rowData.id, rowData.user_id, rowData.name, rowData.email, rowData.id_prodi, rowData.id_angkatan)}></Column>
+                <Column header="Action" body={(rowData) => actionButton(rowData.id, rowData.user_id, rowData.name, rowData.email, rowData.id_prodi, rowData.id_angkatan)}></Column>
             </DataTable>
         </div>
     )

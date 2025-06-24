@@ -5,6 +5,8 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 import { Card } from 'primereact/card'
 import React, { useEffect, useState } from 'react'
+import { tgl } from '../method/formatTgl'
+import rupiah from '../method/Rupiah'
 
 export default function PendaftaranList() {
   const [prodi, setProdi] = useState([])
@@ -81,6 +83,7 @@ export default function PendaftaranList() {
       },
       withCredentials: true
     })
+    // console.log(response.data.body)
     setSeleksi(response.data.body)
   }
 
@@ -135,16 +138,16 @@ export default function PendaftaranList() {
         </div>
       </section>
       <section className='mt-5 flex justify-center items-center w-full relative z-40 h-full'>
-        <div className='xl:max-w-7xl w-full px-4 py-4 md:py-10 flex flex-col md:gap-6 gap-3 items-start md:px-10'>
+        <div className='xl:max-w-7xl w-full px-4 py-4 md:py-10 flex flex-col md:gap-6 gap-3 items-start md:px-6'>
           <div className='w-full h-full group rounded-lg  p-4'>
             {seleksi.map((data, i) => {
               return(
-              <Card key={i} className='shadow-lg'>
-                <h3 className='text-xl capitalize'>Jalur Seleksi - Seleksi {data.nama_seleksi} {data.nama_prodi}</h3>
-                <Button className='my-5'>Reguler</Button>
-                <p className='my-5'>12-12-2025 - 30-02-2026</p>
-                <p className='my-5'>Biaya Daftar RP. 300.000</p>
-                <Button onClick={() => router.replace(`/daftar?id_seleksi=${data.id}&nama_seleksi=${data.nama_seleksi}%20${data.nama_prodi}`)} className='mt-5 w-full'>Daftar Sekarang</Button>
+              <Card key={i} className='shadow-lg border-gray-300 border'>
+                <h3 className='text-xl capitalize font-bold'>Jalur Seleksi - {data.nama_seleksi} - {data.nama_prodi}</h3>
+                <Button className='my-5 bg-blue-900'>Reguler</Button>
+                <p className='my-5'>{tgl(data.mulai)} - {tgl(data.selesai)}</p>
+                <p className='my-5'>Biaya Daftar {rupiah(data.harga)}</p>
+                <Button onClick={() => router.replace(`/daftar?id_seleksi=${data.id_seleksi}&nama_seleksi=${data.nama_seleksi}%20${data.nama_prodi}&id_prodi=${data.id_prodi}`)} className='mt-5 w-full bg-blue-900'>Daftar Sekarang</Button>
               </Card>
               )
             })}

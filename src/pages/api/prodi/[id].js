@@ -1,5 +1,5 @@
 
-import connect from '@/pages/connect';
+import connect from '@/lib/connect';
 import authenticateToken from '../auth';
 
 async function handler(req, res){
@@ -15,13 +15,13 @@ async function handler(req, res){
             res.status(500).json({ message:"Data berhasil gagal didapat" })
         }
     } else if (req.method === 'PUT'){
-        const { jenjang, nama_prodi, banyak_jalur } = req.body;
+        const { jenjang, nama_prodi } = req.body;
         if (!id) {
             return res.status(400).json({ message: 'ID diperlukan untuk memperbarui data' });
         }
         try {
-            const [result] = await connect.query("UPDATE prodi SET jenjang = ?, nama_prodi = ?, banyak_jalur = ? WHERE id_prodi = ?", 
-                [jenjang, nama_prodi, banyak_jalur, id]);    
+            const [result] = await connect.query("UPDATE prodi SET jenjang = ?, nama_prodi = ? WHERE id_prodi = ?", 
+                [jenjang, nama_prodi, id]);    
             res.status(200).json({ message: 'Berhasil ditambahkan!', data: result });
         } catch (error) {
             console.log(error)

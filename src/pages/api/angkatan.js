@@ -1,5 +1,5 @@
 import authenticateToken from "./auth";
-import connect from '../connect'
+import connect from '../../lib/connect'
 
 async function handler(req, res){
     if (req.method === 'GET') {

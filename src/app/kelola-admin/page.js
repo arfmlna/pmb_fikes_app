@@ -1,6 +1,8 @@
 import React from 'react'
 import NavbarComponent from '../components/Navbar'
-import CrudAdmins from '../components/crudUsers/crudAdmins'
+import dynamic from 'next/dynamic'
+
+const CrudAdmins = dynamic(() => import('../components/crudUsers/crudAdmins')) 
 
 export default function page() {
   return (

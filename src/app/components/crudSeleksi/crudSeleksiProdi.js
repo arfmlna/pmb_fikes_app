@@ -11,7 +11,7 @@ import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../Alert'
 import rupiah from '../method/Rupiah'
-import tgl from '../method/formatTgl'
+import { tgl } from '../method/formatTgl'
 import formatDateToYMD from '../method/YMD'
 
 export default function CrudSeleksiProdi() {
@@ -196,7 +196,7 @@ export default function CrudSeleksiProdi() {
     return (
         <div className=''>
             <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                <ModalHeader>Menambahkan Prodi</ModalHeader>
+                <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Seleksi</ModalHeader>
                 <ModalBody>
                     <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                         <div>
@@ -239,18 +239,18 @@ export default function CrudSeleksiProdi() {
                     </form>
                 </ModalBody>
             </Modal>
-            <h1 className='capitalize text-3xl mb-5 font-extrabold underline'>seleksi prodi</h1>
+            <h1 className='capitalize text-3xl mb-5 font-extrabold'>Seleksi</h1>
             <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-            <DataTable value={dataSeleksi} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
+            <DataTable value={dataSeleksi} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='large' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
             className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
             paginatorClassName='bg-[#fafafa]'>
-                <Column sortable field="id" header="ID"></Column>
-                <Column sortable field="nama_prodi" header="Nama Prodi"></Column>
+                <Column body={(rowData, options) => options.rowIndex+1} header="ID"></Column>
+                <Column sortable field='nama_prodi' body={(rowData) => `${rowData.jenjang}-${rowData.nama_prodi}`} header="Prodi"></Column>
                 <Column sortable field="nama_seleksi" header="Seleksi"></Column>
-                <Column sortable body={(rowData) => tgl(rowData.mulai)} header="Mulai"></Column>
-                <Column sortable body={(rowData) => tgl(rowData.selesai)} header="Selesai"></Column>
-                <Column sortable body={(rowData) => rupiah(rowData.harga)} header="Harga"></Column>
-                <Column sortable header="Action" body={(rowData) => actionButton(rowData.id, rowData.id_prodi, rowData.id_seleksi, rowData.mulai, rowData.selesai, rowData.harga, rowData.nama_prodi, rowData.nama_seleksi)}></Column>
+                <Column sortable field='mulai' body={(rowData) => tgl(rowData.mulai)} header="Mulai"></Column>
+                <Column sortable field='selesai' body={(rowData) => tgl(rowData.selesai)} header="Selesai"></Column>
+                <Column sortable field='harga' body={(rowData) => rupiah(rowData.harga)} header="Harga"></Column>
+                <Column header="Action" body={(rowData) => actionButton(rowData.id, rowData.id_prodi, rowData.id_seleksi, rowData.mulai, rowData.selesai, rowData.harga, rowData.nama_prodi, rowData.nama_seleksi)}></Column>
             </DataTable>
         </div>
     )

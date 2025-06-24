@@ -1,5 +1,5 @@
 
-import connect from '@/pages/connect';
+import connect from '@/lib/connect';
 import authenticateToken from '../auth';
 
 async function handler(req, res){

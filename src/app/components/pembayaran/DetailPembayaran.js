@@ -7,7 +7,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import parseData from '../method/GetCookies';
 import { Alert } from '../Alert';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function DetailPembayaran() {
 
@@ -18,34 +18,48 @@ export default function DetailPembayaran() {
         icon: '',
     });
     const [buktiPembayaran, setBuktiPembayaran] = useState(null);
-    const [metode, setMetode] = useState('');
+    const [metode, setMetode] = useState('BNI');
     const [total, setTotal] = useState('')
     const [loadData, setLoadData] = useState({
-        pendaftaran: []
+        pendaftaran: [],
+        harga: null
     })
     const bukti = useRef(null);
-    const biayaFormulir = 100000;
+    const biayaFormulir = loadData.harga;
     const biayaAdmin = 4000;
 
     const router = useRouter()
 
-    useEffect(() => {
-        setTotal(biayaFormulir + biayaAdmin)
-        pendaftaran()
-    }, [])
+    const searchParams = useSearchParams();
+    const idPendaftaran = searchParams.get('id_pendaftaran');
+    const id_seleksi = searchParams.get('id_seleksi');
 
-    const pendaftaran = async () => {
-        const token = Cookies.get('token')
-        const response = await axios.get(`/api/pendaftaran/${parseData.id}`, {
-            headers: {
-                'Authorization' : `Bearer ${token}`
-            },
-            withCredentials: true
-        })
-        setLoadData({
-            pendaftaran: response.data.body
-        })
-    }
+    useEffect(() => {
+        const pendaftaran = async () => {
+            const token = Cookies.get('token')
+            const response = await axios.get(`/api/pendaftaran/${parseData.id}`, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                },
+                withCredentials: true
+            })
+
+            const resSeleksiProdi = await axios.get(`/api/seleksi_prodi/${id_seleksi}`, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                },
+                withCredentials: true
+            })
+            console.log(resSeleksiProdi)
+            setLoadData({
+                pendaftaran: response.data.body,
+                harga: resSeleksiProdi?.data?.body[0]?.harga
+            })
+            setTotal(biayaFormulir + biayaAdmin)
+        }
+        pendaftaran()
+    }, [idPendaftaran, biayaFormulir, id_seleksi])
+
 
     const handleVoucher = () => {
     if (voucher !== 'DISKON2025') {
@@ -88,9 +102,11 @@ export default function DetailPembayaran() {
                 withCredentials: true
             })
             const bukti_pembayaran = resFile.data.fileUrl.bukti_pembayaranUrl
-            console.log(`id : ${user_id}\ntotal : ${total}\nfile : ${bukti_pembayaran}`)
             if(resFile.status === 200){
-                const response = await axios.post(`/api/pembayaran/1`, { user_id, total, bukti_pembayaran }, {
+                const id_Pendaftaran = searchParams.get('id_pendaftaran');
+                const response = await axios.post(`/api/pembayaran/1`, { 
+                    id_pendaftaran: id_Pendaftaran, 
+                    user_id, total, bukti_pembayaran }, {
                     headers: {
                         'Authorization' : `Bearer ${token}`
                     },
@@ -128,7 +144,7 @@ export default function DetailPembayaran() {
                                         <div className="text-blue-800 text-xl">📘</div>
                                         <div>
                                             <p className="text-sm font-bold text-blue-900">
-                                                JALUR {data.nama_seleksi} {data.nama_seleksi}
+                                                JALUR {data.nama_seleksi} {data.nama_prodi1}
                                             </p>
                                             <p className="text-sm text-gray-600">Reguler</p>
                                         </div>

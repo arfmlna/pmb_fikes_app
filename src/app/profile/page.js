@@ -1,12 +1,13 @@
 "use client"
 
 import { useRouter } from 'next/navigation';
-import EditUser from '../components/EditUser';
 import { useLoading } from '../components/Loadingku/HandleLoading';
 import NavbarComponent from '../components/Navbar';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Loading from '../components/Loadingku/Loading';
+import dynamic from 'next/dynamic';
+const EditUser = dynamic(() => import('../components/EditUser'));
 
 export default function Profile() {
   const router = useRouter()

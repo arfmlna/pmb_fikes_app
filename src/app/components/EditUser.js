@@ -13,6 +13,7 @@ export default function EditUser() {
     const [oldEmail, setOldEmail] = useState("");
     const [newEmail, setNewEmail] = useState("");
     const [token, setToken] = useState(null); // State for token
+    // const [getDokumen, setDocument] = useState({})
 
     const router = useRouter()
 
@@ -92,6 +93,30 @@ export default function EditUser() {
         }
     }
 
+    // const getProfile = async () => {
+    //     try {
+    //         const token = Cookies.get('token')
+    //         const response = await axios.get(`/api/document/${account}`,
+    //             {
+    //                 headers: {
+    //                     'Authorization' : `Bearer ${token}`
+    //                 },
+    //                 withCredentials: true
+    //             },
+    //         )
+
+    //         const doc = response.data.body
+    //         setDocument(doc)
+    //     } catch (error) {
+    //         console.error(error.message)
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     getProfile()
+    // }, [getProfile])
+
+    // console.log(getDokumen?.[0]?.foto ?? 'Foto tidak tersedia');
     return (
         <section className="flex w-full items-center py-10 px-4 md:px-10 justify-center">
             <div className="xl:max-w-7xl mx-auto w-full bg-white">
@@ -117,21 +142,27 @@ export default function EditUser() {
                                     <td>:</td>
                                     <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.role}</p></td>
                                 </tr>
-                                <tr>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">NIM</p></td>
-                                    <td>:</td>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.user_id}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Prodi</p></td>
-                                    <td>:</td>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.nama_prodi}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">Angkatan</p></td>
-                                    <td>:</td>
-                                    <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.tahun_angkatan}</p></td>
-                                </tr>
+                                {parseData.user_id && (
+                                    <tr>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">NIM</p></td>
+                                        <td>:</td>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.user_id}</p></td>
+                                    </tr>
+                                )}
+                                {parseData.nama_prodi && (
+                                    <tr>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">Prodi</p></td>
+                                        <td>:</td>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.nama_prodi}</p></td>
+                                    </tr>
+                                )}
+                                {parseData.tahun_angkatan && (
+                                    <tr>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">Angkatan</p></td>
+                                        <td>:</td>
+                                        <td><p className="px-3 text-base md:text-lg lg:text-xl">{parseData.tahun_angkatan}</p></td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>

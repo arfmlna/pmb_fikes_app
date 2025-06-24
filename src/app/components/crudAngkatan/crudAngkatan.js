@@ -143,7 +143,7 @@ export default function CRUDAngkatan() {
     return (
         <div className='mx-10 mt-10'>
             <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                <ModalHeader>Menambahkan Angkatan</ModalHeader>
+                <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Angkatan</ModalHeader>
                 <ModalBody>
                     <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                         <div>
@@ -173,10 +173,10 @@ export default function CRUDAngkatan() {
             header={headerTable} tableStyle={{ minWidth: '50rem' }} className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
             paginatorClassName='bg-[#fafafa]'
             rowClassName={(rowData) => rowData.status_pendaftaran === 'buka' ? 'bg-green-500 text-white' : 'bg-white'}>
-                <Column sortable field="id_angkatan" header="ID"></Column>
+                <Column field="id_prodi" body={(rowData, options) => options.rowIndex+1} header="No."></Column>
                 <Column sortable field="tahun_angkatan" header="Tahun Angkatan"></Column>
                 <Column sortable field="status_pendaftaran" header="Status"></Column>
-                <Column sortable header="Action" body={(rowData) => actionButton(rowData.id_angkatan, rowData.tahun_angkatan, rowData.status_pendaftaran)}></Column>
+                <Column header="Action" body={(rowData) => actionButton(rowData.id_angkatan, rowData.tahun_angkatan, rowData.status_pendaftaran)}></Column>
             </DataTable>
         </div>
     )

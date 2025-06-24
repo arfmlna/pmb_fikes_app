@@ -1,4 +1,4 @@
-import connect from "@/pages/connect";
+import connect from "@/lib/connect";
 import authenticateToken from "../auth";
 
 async function handler(req, res){
@@ -22,7 +22,7 @@ async function handler(req, res){
             
             const [result] = await connect.query('INSERT INTO pendaftaran(id_user, id_seleksi, nama_lengkap, no_hp, tgl_lahir, kewarganegaraan, nama_ortu, jenis_kelamin, email, tmpt_lahir, nik_ktp, no_hp_ortu, provinsi, jenis_sekolah, jurusan_sekolah, alamat_sekolah, nama_sekolah, tahun_lulus, prodi1, prodi2) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [id, jalur, fullname, no_hp, tgl_lahir, warganegara, fullname_parent, jenis_kelamin, email, tmpt_lahir, nik, no_hp_ortu, provinsi, jenis_sekolah, jurusan, kabkota, npsn, tahun_lulus, prodi1, prodi2]);
 
-            res.status(201).json({ message: 'Berhasil ditambahkan!', body: result});
+            res.status(201).json({ message: 'Berhasil ditambahkan!', body: result, id_pendaftaran: result.insertId });
         } catch (error) {
             console.log(error)
             res.status(500).json({ message:"Gagal ditambahkan" })

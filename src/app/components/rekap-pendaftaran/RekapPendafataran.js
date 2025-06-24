@@ -8,11 +8,17 @@ import { DataTable } from 'primereact/datatable'
 import { IconField } from 'primereact/iconfield'
 import { InputIcon } from 'primereact/inputicon'
 import { InputText } from 'primereact/inputtext'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Alert } from '../Alert'
-import tgl from '../method/formatTgl'
+import { tgl } from '../method/formatTgl'
 import formatDateToYMD from '../method/YMD'
 import getYearOptions from '../method/ListTahun'
+import { Card } from 'primereact/card'
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { Pagination } from '../method/Pagination'
 
 export default function RekapPendafataran() {
     const [dataPendaftaran, setDataPendaftaran] = useState([])
@@ -53,7 +59,38 @@ export default function RekapPendafataran() {
     })
     const [getProdi, setProdi] = useState([])
     const [users, setUsers] = useState([])
+    const [expandedRows, setExpandedRows] = useState(null);
+    const dt = useRef(null);
 
+    const exportPdf = () => {
+    const doc = new jsPDF('landscape');
+    autoTable(doc, {
+        head: [[
+            'Nama', 'Tgl Lahir', 'Nama Ortu',
+            'JK', 'Tempat Lahir', 'NIK', 'Provinsi', 'Nama Sekolah', 'Tahun Lulus', 'Prodi 1', 'Prodi 2'
+        ]],
+        body: dataPendaftaran.map((rowData) => [
+            rowData.nama_lengkap, tgl(rowData.tgl_lahir), rowData.nama_ortu, rowData.jenis_kelamin, rowData.tmpt_lahir, rowData.nik_ktp, rowData.provinsi, rowData.nama_sekolah, rowData.tahun_lulus, rowData.nama_prodi1, rowData.nama_prodi2
+        ]),
+        margin: { top: 30 },
+            didDrawPage: (data) => {
+            doc.setFontSize(12);
+            doc.text('Data Pendaftaran Mahasiswa', data.settings.margin.left, 20);
+        }
+
+        });
+        doc.save('data-pendaftaran.pdf');
+    };
+
+    const exportExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(dataPendaftaran);
+        const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        });
+        saveAs(data, 'data-pendaftaran.xlsx');
+    };
 
     useEffect(() => {
         getPendaftaran()
@@ -275,16 +312,21 @@ export default function RekapPendafataran() {
     }
 
     const headerTable = (
-        <div>
+        <div className='flex'>
             <IconField iconPosition="left">
                 <InputIcon className="pi pi-search"></InputIcon>
                 <InputText
                     type='text'
-                    className='rounded-sm w-full md:w-[calc(100%/4)] py-2 pe-2 placeholder-shown:ps-9 focus:ps-9'
+                    className='rounded-sm w-full md:w-[calc(100%)] py-2 pe-2 placeholder-shown:ps-9 focus:ps-9'
                     onInput={(e) => setGlobalFilter(e.target.value)}
                     placeholder="Cari Data"
                 />
             </IconField>
+            <div className='mx-auto'></div>
+            <div className="flex align-items-center justify-content-end gap-2">
+                <Button icon="pi pi-file-pdf" rounded className="bg-red-700 text-white" onClick={exportPdf} />
+                <Button icon="pi pi-file-excel" rounded className="bg-green-700 text-white" onClick={exportExcel} />
+            </div>
         </div>
     );
 
@@ -299,18 +341,112 @@ export default function RekapPendafataran() {
             </div>
         )
     }
+
+    const updateStatusPembayaran = async (id, status) => {
+        console.log(status)
+        const token = Cookies.get('token')
+        try {
+            const response = await axios.put(`/api/pembayaran/status/${id}`, { status }, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                },
+                withCredentials: true
+            },);
+            Alert('Info', 'Status pembayaran diperbarui', 'success', 'OK!');
+            console.log(response.data)
+        } catch (error) {
+            Alert('Info', 'Status pembayaran gagal diperbarui', 'error', 'OK!');
+            console.error("Gagal memperbarui status:", error.response||error);
+        }
+    };
+
+    const rowExpansionTemplate = (data) => {
+    return (
+        <div className="p-6 bg-gray-50 border-l-4 border-blue-200 rounded-b-md text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                <div>
+                    <p className="font-semibold text-gray-700">Nama Lengkap</p>
+                    <p>{data.nama_lengkap}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">No. HP</p>
+                    <p>{data.no_hp}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Email</p>
+                    <p>{data.email}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Tanggal Lahir</p>
+                    <p>{tgl(data.tgl_lahir)}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Tempat Lahir</p>
+                    <p>{data.tmpt_lahir}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Jenis Kelamin</p>
+                    <p>{data.jenis_kelamin}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Nama Orang Tua</p>
+                    <p>{data.nama_ortu}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">No. HP Orang Tua</p>
+                    <p>{data.no_hp_ortu}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Alamat Sekolah</p>
+                    <p>{data.alamat_sekolah}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Nama Sekolah</p>
+                    <p>{data.nama_sekolah}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Provinsi</p>
+                    <p>{data.provinsi}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Jurusan Sekolah</p>
+                    <p>{data.jurusan_sekolah}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Jenis Sekolah</p>
+                    <p>{data.jenis_sekolah}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Tahun Lulus</p>
+                    <p>{data.tahun_lulus}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Prodi Pilihan 1</p>
+                    <p>{data.nama_prodi1}</p>
+                </div>
+                <div>
+                    <p className="font-semibold text-gray-700">Prodi Pilihan 2</p>
+                    <p>{data.nama_prodi2}</p>
+                </div>
+            </div>
+        </div>
+    );
+    };
+
+    const page = Pagination(dataPendaftaran.length, 10)
+
     
     return (
       <>
           <div className='flex flex-col justify-center items-center lg:px-10 lg:py-20 md:px-8 md:py-16 py-12 px-6 lg:gap-y-10 gap-y-5 h-full w-screen'>
-              <h1 className='text-center lg:text-4xl md:text-2xl text-xl'>Daftar Rekap Pendafataran</h1>
+              <h1 className='text-center lg:text-4xl md:text-2xl text-xl'>Daftar Rekap Pendaftaran</h1>
               {!dataPendaftaran ? (
                   <h1 className='text-center lg:text-4xl md:text-2xl text-xl'>Loading...</h1>
               ) : (
                   <>
                     <div className='w-full'>
                         <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                            <ModalHeader>Pendafataran</ModalHeader>
+                            <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Pendaftar</ModalHeader>
                             <ModalBody>
                                 <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                                     <div>
@@ -345,14 +481,14 @@ export default function RekapPendafataran() {
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="tgl_lahir">Masukan No. HP</Label>
+                                            <Label htmlFor="tgl_lahir">Tanggal Lahir</Label>
                                         </div>
                                         <TextInput type='date' id="tgl_lahir" name='tgl_lahir' placeholder="Pendidikan Teknologi Informasi" required 
                                         defaultValue={formatDateToYMD(formData.tgl_lahir)} />
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="warganegara">Masukan Seleksi</Label>
+                                            <Label htmlFor="warganegara">Kewarganegaraan</Label>
                                         </div>
                                         <Select id="warganegara" name='warganegara' required defaultValue={formData.warganegara}>
                                             {getCountry.map((data, i) => (
@@ -369,7 +505,7 @@ export default function RekapPendafataran() {
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="jenis_kelamin">Masukan Seleksi</Label>
+                                            <Label htmlFor="jenis_kelamin">Jenis Kelamin</Label>
                                         </div>
                                         <Select id="jenis_kelamin" name='jenis_kelamin' required defaultValue={formData.jenis_kelamin}>
                                             <option value={'perempuan'}>Perempuan</option>
@@ -434,7 +570,7 @@ export default function RekapPendafataran() {
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="kabkota">Masukan Jenis Sekolah</Label>
+                                            <Label htmlFor="kabkota">Masukan Alamat Sekolah</Label>
                                         </div>
                                         <Select id="kabkota" name='kabkota' required defaultValue={formData.kabkota}>
                                             {getTmpt.kota.map((data,i) => (
@@ -462,7 +598,7 @@ export default function RekapPendafataran() {
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="prodi1">Masukan Jenis Sekolah</Label>
+                                            <Label htmlFor="prodi1">Masukan Pilihan Prodi 1</Label>
                                         </div>
                                         <Select id="prodi1" name='prodi1' required defaultValue={formData.prodi1}>
                                             {getProdi.map((data, i) => (
@@ -472,7 +608,7 @@ export default function RekapPendafataran() {
                                     </div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="prodi2">Masukan Jenis Sekolah</Label>
+                                            <Label htmlFor="prodi2">Masukan Pilihan Prodi 2</Label>
                                         </div>
                                         <Select id="prodi2" name='prodi2' required defaultValue={formData.prodi2}>
                                             {getProdi.map((data, i) => (
@@ -486,39 +622,30 @@ export default function RekapPendafataran() {
                                 </form>
                             </ModalBody>
                         </Modal>
-                        <h1 className='capitalize text-3xl mb-5 font-extrabold underline'>seleksi</h1>
                         <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-                        <DataTable value={dataPendaftaran} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
+                        <DataTable value={dataPendaftaran} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={page} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
                         className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
-                        paginatorClassName='bg-[#fafafa]'>
+                        paginatorClassName='bg-[#fafafa]' expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} rowExpansionTemplate={rowExpansionTemplate}>
+                            <Column expander style={{ width: '3em' }} />
                             <Column sortable className='py-7' body={(rowData, options) => options.rowIndex+1} header="ID"></Column>
                             <Column sortable className='py-7' field="id_user" header="ID Users"></Column>
                             <Column sortable className='py-7' field="nama_seleksi" header="Seleksi"></Column>
                             <Column sortable className='py-7' field="nama_lengkap" header="Nama Lengkap"></Column>
-                            <Column sortable className='py-7' field="no_hp" header="No. HP"></Column>
-                            <Column sortable className='py-7' body={(rowData) => tgl(rowData.tgl_lahir)} header="TGL Lahir"></Column>
-                            <Column sortable className='py-7' field="kewarganegaraan" header="Warganegara"></Column>
-                            <Column sortable className='py-7' field="nama_ortu" header="Nama Orang Tua"></Column>
                             <Column sortable className='py-7' field="jenis_kelamin" header="Jenis Kelamin"></Column>
                             <Column sortable className='py-7' field="email" header="Email"></Column>
-                            <Column sortable className='py-7' field="tmpt_lahir" header="Tempat Lahir"></Column>
-                            <Column sortable className='py-7' field="nik_ktp" header="NIK/KTP"></Column>
-                            <Column sortable className='py-7' field="no_hp_ortu" header="No. HP Orang Tua"></Column>
-                            <Column sortable className='py-7' field="provinsi" header="Provinsi"></Column>
-                            <Column sortable className='py-7' field="jenis_sekolah" header="Jenis Sekolah"></Column>
-                            <Column sortable className='py-7' field="jurusan_sekolah" header="Jurusan Sekolah"></Column>
-                            <Column sortable className='py-7' field="alamat_sekolah" header="Alamat Sekolah"></Column>
-                            <Column sortable className='py-7' field="nama_sekolah" header="Nama Sekolah"></Column>
-                            <Column sortable className='py-7' field="tahun_lulus" header="Tahun Lulus"></Column>
-                            <Column sortable className='py-7' field="nama_prodi1" header="Prodi Pilihan 1"></Column>
-                            <Column sortable className='py-7' field="nama_prodi2" header="Prodi Pilihan 2"></Column>
-                            <Column sortable className='py-7' body={(rowData) => (
-                                <Select defaultValue={rowData.konfirmasi}>
-                                    <option value={1}>sudah</option>
-                                    <option value={0}>belum</option>
-                                </Select>
-                            )} header="Status"></Column>
-                            <Column sortable className='py-7' header="Action" body={(rowData) => actionButton(
+                            <Column className='py-7' body={(rowData) => {
+                                const handleChange = (event) => {
+                                    const newStatus = event.target.value;
+                                    updateStatusPembayaran(rowData.id_pendaftaran, newStatus); 
+                                };
+                                return(
+                                    <Select defaultValue={rowData.konfirmasi} onChange={handleChange}>
+                                        <option value={1}>Valid</option>
+                                        <option value={0}>Tidak Valid</option>
+                                    </Select>
+                                )
+                            }} header="Status Pembayaran"></Column>
+                            <Column className='py-7' header="Action" body={(rowData) => actionButton(
                                 rowData.id_pendaftaran, rowData.id_user, rowData.id_seleksi, rowData.nama_lengkap, rowData.no_hp, rowData.tgl_lahir, rowData.kewarganegaraan, rowData.nama_ortu, rowData.jenis_kelamin, rowData.email, rowData.tmpt_lahir, rowData.nik_ktp, rowData.no_hp_ortu, rowData.provinsi, rowData.jenis_sekolah, rowData.jurusan_sekolah, rowData.alamat_sekolah, rowData.nama_sekolah, rowData.tahun_lulus, rowData.prodi1, rowData.prodi2
                             )}></Column>
                         </DataTable>

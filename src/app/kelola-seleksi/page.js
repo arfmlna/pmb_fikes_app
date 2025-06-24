@@ -1,7 +1,9 @@
 import React from 'react'
 import NavbarComponent from '../components/Navbar'
-import CrudSeleksi from '../components/crudSeleksi/crudSeleksi'
-import CrudSeleksiProdi from '../components/crudSeleksi/crudSeleksiProdi'
+import dynamic from 'next/dynamic'
+
+const CrudSeleksi = dynamic(() => import('../components/crudSeleksi/crudSeleksi'))
+const CrudSeleksiProdi = dynamic(() => import('../components/crudSeleksi/crudSeleksiProdi'))
 
 export default function page() {
   return (

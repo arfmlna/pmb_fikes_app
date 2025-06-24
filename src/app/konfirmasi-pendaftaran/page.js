@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import NavbarComponent from '../components/Navbar'
 import Footer from '../components/Footer'
 import KonfirmasiPendaftaranForm from '../components/konfirmasi-pendaftaran/KonfirmasiPendaftaranForm'
@@ -10,7 +10,9 @@ export default function KonfirmasiPendaftaranPage() {
     <>
         <NavbarComponent/>
         <NavigatingInfoKonfirmasiPendaftaran/>
-        <KonfirmasiPendaftaranForm/>
+        <Suspense fallback={<div>Loading...</div>}>
+          <KonfirmasiPendaftaranForm/>
+        </Suspense>
         <Banner/>
         <Footer/>
     </>

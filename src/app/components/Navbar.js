@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 import icon from '../fikesicon.png'
 import { Alert } from "./Alert";
 import Cookies from "js-cookie";
-import parseData from "./method/GetCookies";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { Dropdown, DropdownItem } from "flowbite-react";
+import axios from "axios";
+import parseData from "./method/GetCookies";
 
 function MobileNav({ open, setOpen, role, handleLogout }) {
     return (
@@ -47,9 +48,16 @@ export default function NavbarComponent() {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
     const [role, setRole] = useState(null); // State for role
+    const [pendaftaran, setPendaftaran] = useState({
+        id_pendaftaran: null,
+        id_pembayaran: null,
+        id_dokumen: null,
+        id_seleksi: null,
+        nama_seleksi: null
+    })
+    
     const router = useRouter();
     
-    const data = parseData
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const currentRoute = usePathname() 
 
@@ -88,7 +96,6 @@ export default function NavbarComponent() {
         };
     }, [prevScrollPos]);
     
-
     // Logout function
     const handleLogout = async () => {
         try {
@@ -105,6 +112,48 @@ export default function NavbarComponent() {
         }
     };
 
+    useEffect(() => {
+        getPendaftaran()
+    }, [])
+
+    const getPendaftaran = async () => {
+        try {
+            const token = Cookies.get('token');
+            if (!token) {
+                console.error('Token tidak ditemukan.');
+                return;
+            }
+
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                withCredentials: true
+            };
+
+            // Jalankan ketiga permintaan secara paralel
+            const [resPendaftaran, resDokumen, resPembayaran] = await Promise.all([
+                axios.get(`/api/pendaftaran/${parseData.id}`, { headers }),
+                axios.get(`/api/file/${parseData.id}`, { headers }),
+                axios.get(`/api/pembayaran/${parseData.id}`, { headers }),
+            ]);
+
+            
+            const id_pendaftaran = resPendaftaran?.data?.body[0]?.id_pendaftaran || null;
+            const id_seleksi = resPendaftaran?.data?.body[0]?.id_seleksi || null;
+            const nama_seleksi = resPendaftaran?.data?.body[0]?.nama_seleksi || null;
+            const id_dokumen = resDokumen?.data?.body[0]?.id_pendaftaran || null;
+            const id_pembayaran = resPembayaran?.data?.body[0]?.id_pendaftaran || null;
+
+            setPendaftaran({
+                id_pendaftaran: id_pendaftaran,
+                id_dokumen: id_dokumen,
+                id_pembayaran: id_pembayaran,
+                id_seleksi: id_seleksi,
+                nama_seleksi: nama_seleksi
+            });
+        } catch (error) {
+            console.error('Terjadi kesalahan saat mengambil data pendaftaran:', error);
+        }
+    };
     return (
         <>
             <header className={`fixed z-50 w-full flex justify-center items-center bg-white border-b border-b-gray-300 transition-all duration-300 ease-out transform ${visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}>
@@ -118,8 +167,21 @@ export default function NavbarComponent() {
                         {role !== "users" ? null : (
                             <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
                                 <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
-                                <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
-                                {/* <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/daftar" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/daftar"}>Daftar</Link> */}
+                                {   pendaftaran &&
+                                    !pendaftaran.id_pendaftaran && 
+                                    !pendaftaran.id_pembayaran && 
+                                    !pendaftaran.id_dokumen && (
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
+                                )  }
+                                {   pendaftaran && (
+                                    (pendaftaran.id_pendaftaran ||
+                                    pendaftaran.id_pembayaran ||
+                                    pendaftaran.id_dokumen) && (
+                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === `/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}` ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={`/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}`}>Daftar</Link>
+                                    )
+                                )
+                                    }
+                                
                                 <button className={`pb-1 flex justify-center items-center gap-1.5 ${currentRoute === "/program-studi" || currentRoute === "/pengumuman" ? "font-bold" : "font-normal"}`} onClick={() => setIsDropdownOpen((prev) => !prev)}><p className="text-black">Informasi</p>{isDropdownOpen ? <BsChevronUp/> : <BsChevronDown/>}</button>
                                 {isDropdownOpen && (
                                     <div className="absolute top-20 -mr-32 w-48 bg-white border border-gray-300 shadow-lg rounded-md z-50 animate-fadeIn">
@@ -165,6 +227,15 @@ export default function NavbarComponent() {
                                         </DropdownItem>
                                         <DropdownItem>
                                             <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/kelola-seleksi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/kelola-seleksi"}>Kelola Seleksi</Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/kelola-pembayaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/kelola-pembayaran"}>Kelola Pembayaran</Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/kelola-dokumen" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/kelola-dokumen"}>Kelola Dokument</Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/daftar-keputusan" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/daftar-keputusan"}>Daftar Keputusan</Link>
                                         </DropdownItem>
                                     </Dropdown>
                                     <Dropdown label="Prodi & Angkatan" inline dismissOnClick={false}>

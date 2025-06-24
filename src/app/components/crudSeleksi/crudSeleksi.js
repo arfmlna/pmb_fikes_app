@@ -1,13 +1,10 @@
 'use client'
 import axios from 'axios'
-import { Label, Modal, ModalBody, ModalHeader, Select, TextInput } from 'flowbite-react'
+import { Label, Modal, ModalBody, ModalHeader, TextInput } from 'flowbite-react'
 import Cookies from 'js-cookie'
 import { Button } from 'primereact/button'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
-import { IconField } from 'primereact/iconfield'
-import { InputIcon } from 'primereact/inputicon'
-import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { Alert } from '../Alert'
 
@@ -19,7 +16,6 @@ export default function CrudSeleksi() {
     const [formData, setFormData] = useState({
         id_seleksi: "",
         nama_seleksi: "",
-        tahun: "",
     });
 
 
@@ -49,7 +45,6 @@ export default function CrudSeleksi() {
         setFormData({
             id_seleksi: "",
             nama_seleksi: "",
-            tahun: "",
         });
         setFormMode("create");
         setOpenModal(true);
@@ -85,19 +80,18 @@ export default function CrudSeleksi() {
         const token = Cookies.get('token')
         const form = new FormData(e.target)
         const nama_seleksi = form.get('nama_seleksi')
-        const tahun = form.get('tahun')
 
         try {
             let response
             if (formMode === "edit") {
-                response = await axios.put(`/api/seleksi/${formData.id_seleksi}`, {nama_seleksi, tahun}, { 
+                response = await axios.put(`/api/seleksi/${formData.id_seleksi}`, {nama_seleksi}, { 
                     headers: {
                         'Authorization' : `Bearer ${token}`
                     },
                     withCredentials: true 
                 });
             } else {
-                response = await axios.post(`/api/seleksi`, {nama_seleksi, tahun}, { 
+                response = await axios.post(`/api/seleksi`, {nama_seleksi}, { 
                     headers: {
                         'Authorization' : `Bearer ${token}`
                     },
@@ -116,25 +110,11 @@ export default function CrudSeleksi() {
         }
     }
 
-    const headerTable = (
-        <div>
-            <IconField iconPosition="left">
-                <InputIcon className="pi pi-search"></InputIcon>
-                <InputText
-                    type='text'
-                    className='rounded-sm w-full md:w-[calc(100%/4)] py-2 pe-2 placeholder-shown:ps-9 focus:ps-9'
-                    onInput={(e) => setGlobalFilter(e.target.value)}
-                    placeholder="Cari Data"
-                />
-            </IconField>
-        </div>
-    );
-
-    const actionButton = (id_seleksi, nama_seleksi, tahun) => {
+    const actionButton = (id_seleksi, nama_seleksi) => {
         return (
             <div className='flex gap-3'>
                 <Button 
-                onClick={() => openEditModal({ id_seleksi, nama_seleksi, tahun })} 
+                onClick={() => openEditModal({ id_seleksi, nama_seleksi })} 
                 className='bg-yellow-200' icon="pi pi-pen-to-square" text />
                 <Button
                 onClick={() => handleDelete(id_seleksi)} className='bg-red-600' icon="pi pi-trash" text />
@@ -145,7 +125,7 @@ export default function CrudSeleksi() {
     return (
         <div className=''>
             <Modal size='4xl' show={openModal} onClose={() => setOpenModal(false)}>
-                <ModalHeader>Menambahkan Prodi</ModalHeader>
+                <ModalHeader>{formMode === 'create' ? "Tambahkan" : formMode === 'edit' ? "Edit" : ""} Jenis Seleksi</ModalHeader>
                 <ModalBody>
                     <form onSubmit={(e) => handleForm(e)} className="space-y-6">
                         <div>
@@ -154,28 +134,20 @@ export default function CrudSeleksi() {
                             </div>
                             <TextInput id="nama_seleksi" name='nama_seleksi' required defaultValue={formData.nama_seleksi}/>
                         </div>
-                        <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="tahun">Masukan Tahun</Label>
-                            </div>
-                            <TextInput id="tahun" name='tahun' placeholder="Pendidikan Teknologi Informasi" required 
-                            defaultValue={formData.tahun} />
-                        </div>
                         <div className="w-full">
                             <Button className='py-3 px-4 bg-blue-600 text-white rounded-md' type='submit' label='SUBMIT'/>
                         </div>
                     </form>
                 </ModalBody>
             </Modal>
-            <h1 className='capitalize text-3xl mb-5 font-extrabold underline'>seleksi</h1>
+            <h1 className='capitalize text-3xl mb-5 font-extrabold'>Jenis Seleksi</h1>
             <Button className='px-5 py-3 mb-5' icon="pi pi-plus" text raised onClick={openCreateModal} />
-            <DataTable value={dataSeleksi} paginator showGridlines stripedRows rows={10} rowsPerPageOptions={[10, 15, 20, 25]} paginatorTemplate="PrevPageLink CurrentPageReport NextPageLink RowsPerPageDropdown" currentPageReportTemplate="{first} to {last} of {totalRecords}" paginatorRight resizableColumns size='small' emptyMessage="Prodi Tidak Tersedia." globalFilter={globalFilter} header={headerTable} tableStyle={{ minWidth: '50rem' }}
+            <DataTable value={dataSeleksi} showGridlines stripedRows resizableColumns size='large' emptyMessage="Jenis Seleksi Tidak Tersedia." globalFilter={globalFilter} tableStyle={{ minWidth: '50rem' }}
             className="rounded-md overflow-hidden shadow-md border border-gray-300 text-sm"
             paginatorClassName='bg-[#fafafa]'>
-                <Column sortable field="id_seleksi" header="ID"></Column>
-                <Column sortable field="nama_seleksi" header="Nama Seleksi"></Column>
-                <Column sortable field="tahun" header="Tahun"></Column>
-                <Column sortable header="Action" body={(rowData) => actionButton(rowData.id_seleksi, rowData.nama_seleksi, rowData.tahun)}></Column>
+                <Column header="No." body={(rowData, options) => options.rowIndex+1} className='py-5'></Column>
+                <Column sortable field="nama_seleksi" header="Nama Seleksi" className='py-5'></Column>
+                <Column header="Action" body={(rowData) => actionButton(rowData.id_seleksi, rowData.nama_seleksi)} className='py-5'></Column>
             </DataTable>
         </div>
     )
