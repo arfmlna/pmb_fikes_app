@@ -2,7 +2,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { Card } from 'primereact/card'
 import { Chart } from 'primereact/chart'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Button } from 'primereact/button';
@@ -23,6 +23,8 @@ export default function ChartLaporan({ getLaporan }) {
         },
         options: {}
     })
+
+    const chartRef = useRef(null);
 
     let LaporanChart = useCallback(() => {
         const documentStyle = getComputedStyle(document.documentElement);
@@ -200,15 +202,6 @@ export default function ChartLaporan({ getLaporan }) {
             maintainAspectRatio: false,
             aspectRatio: 0.6,
             plugins: {
-                datalabels: {
-                color: '#000',
-                anchor: 'end',
-                align: 'top',
-                font: {
-                    weight: 'bold'
-                },
-                formatter: (value) => value
-                },
                 legend: {
                     labels: {
                         color: textColor
@@ -352,7 +345,7 @@ export default function ChartLaporan({ getLaporan }) {
                 } className='col-span-12 md:col-span-6 drop-shadow-2xl'>
                 {chartLaporan.harian.data?.datasets?.length > 0 ? (
                     <div className=''>
-                        <Chart type="bar" data={chartLaporan.harian.data} options={chartLaporan.options} height={300} />
+                        <Chart type="bar" data={chartLaporan.harian.data} options={chartLaporan.options} height={300} ref={chartRef} />
                     </div>
                 ) : (
                     <p>Memuat data grafik...</p>

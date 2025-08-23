@@ -1,9 +1,11 @@
 import React, { Suspense } from 'react'
 import NavbarComponent from '../components/Navbar'
 import Footer from '../components/Footer'
-import KonfirmasiPendaftaranForm from '../components/konfirmasi-pendaftaran/KonfirmasiPendaftaranForm'
 import Banner from '../components/pendaftaran/Banner'
 import NavigatingInfoKonfirmasiPendaftaran from '../components/konfirmasi-pendaftaran/NavigatingInfoKonfirmasiPendafataran'
+import dynamic from 'next/dynamic'
+
+const KonfirmasiPendaftaranForm = dynamic(() => import('../components/konfirmasi-pendaftaran/KonfirmasiPendaftaranForm'))
 
 export default function KonfirmasiPendaftaranPage() {
   return (

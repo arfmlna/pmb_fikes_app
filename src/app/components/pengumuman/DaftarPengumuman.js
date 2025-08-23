@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
-import { AiFillBank } from "react-icons/ai";
-import { BsChevronCompactLeft, BsChevronLeft, BsChevronRight } from 'react-icons/bs';
-import { FaHandshake, FaUserGraduate } from "react-icons/fa";
-import { IoIosBook } from "react-icons/io";
 import { LuChevronLeft, LuChevronRight, LuChevronsLeft, LuChevronsRight } from 'react-icons/lu';
 
 export default function DaftarPengumuman() {
@@ -36,10 +32,10 @@ export default function DaftarPengumuman() {
                     </button>
                     <p className='bg-blue-700 p-2 rounded-md text-white'>1</p>
                     <button>
-                        <LuChevronsRight/>
+                        <LuChevronRight/>
                     </button>
                     <button>
-                        <LuChevronRight/>
+                        <LuChevronsRight/>
                     </button>
                 </div>
             </div>

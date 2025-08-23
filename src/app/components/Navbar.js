@@ -167,21 +167,32 @@ export default function NavbarComponent() {
                         {role !== "users" ? null : (
                             <ul className="md:flex hidden items-center justify-end gap-5 lg:text-sm text-xs">
                                 <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/"}>Beranda</Link>
-                                {   pendaftaran &&
+                                {   
+                                    pendaftaran &&
                                     !pendaftaran.id_pendaftaran && 
                                     !pendaftaran.id_pembayaran && 
                                     !pendaftaran.id_dokumen && (
-                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
-                                )  }
-                                {   pendaftaran && (
+                                        <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/pendaftaran" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/pendaftaran"}>Pendaftaran</Link>
+                                    ) 
+                                }
+                                {   
+                                    pendaftaran && (
                                     (pendaftaran.id_pendaftaran ||
                                     pendaftaran.id_pembayaran ||
                                     pendaftaran.id_dokumen) && (
-                                    <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === `/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}` ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={`/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}`}>Daftar</Link>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === `/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}` ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={`/daftar?id_seleksi=${pendaftaran.id_seleksi}&nama_seleksi=${pendaftaran.nama_seleksi}`}>Daftar</Link>
+                                        )
                                     )
-                                )
-                                    }
-                                
+                                }
+                                {   
+                                    pendaftaran && (
+                                    (pendaftaran.id_pendaftaran ||
+                                    pendaftaran.id_pembayaran ||
+                                    pendaftaran.id_dokumen) && (
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === `/heregistrasi` ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={`/heregistrasi`}>Heregistrasi</Link>
+                                        )
+                                    )
+                                }
                                 <button className={`pb-1 flex justify-center items-center gap-1.5 ${currentRoute === "/program-studi" || currentRoute === "/pengumuman" ? "font-bold" : "font-normal"}`} onClick={() => setIsDropdownOpen((prev) => !prev)}><p className="text-black">Informasi</p>{isDropdownOpen ? <BsChevronUp/> : <BsChevronDown/>}</button>
                                 {isDropdownOpen && (
                                     <div className="absolute top-20 -mr-32 w-48 bg-white border border-gray-300 shadow-lg rounded-md z-50 animate-fadeIn">
@@ -240,10 +251,13 @@ export default function NavbarComponent() {
                                     </Dropdown>
                                     <Dropdown label="Prodi & Angkatan" inline dismissOnClick={false}>
                                         <DropdownItem>
-                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/prodi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/prodi"}>Prodi</Link>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/prodi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/prodi"}>Prodi</Link>
                                         </DropdownItem>
                                         <DropdownItem>
-                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/dashboard/angkatan" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/angkatan"}>Angkatan</Link>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/laporan-prodi" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/laporan-prodi"}>Laporan Prodi</Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
+                                            <Link className={`cursor-pointer tracking-wide pb-1 ${currentRoute === "/angkatan" ? "font-bold border-b-black border-b-2" : "hover:border-b-black hover:border-b transition-all ease-out duration-150 font-normal"}`} href={"/angkatan"}>Angkatan</Link>
                                         </DropdownItem>
                                     </Dropdown>
                                     {/* <button onClick={handleLogout}>Logout</button> */}

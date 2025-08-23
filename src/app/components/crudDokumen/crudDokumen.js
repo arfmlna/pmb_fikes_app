@@ -82,41 +82,78 @@ export default function CrudDokumen() {
         )
     }
 
+    const handleUpdateStatus = async (id, status, statusName) => {
+        const token = Cookies.get('token')
+        try {
+            const response = await axios.put(`/api/document/status/${id}`, { status, statusName }, {
+                headers: {
+                    'Authorization' : `Bearer ${token}`
+                },
+                withCredentials: true
+            },);
+            Alert('Info', 'Status diperbarui', 'success', 'OK!');
+            console.log(response.data)
+        } catch (error) {
+            Alert('Info', 'Status gagal diperbarui', 'error', 'OK!');
+            console.error("Gagal memperbarui status:", error.response||error);
+        }
+    }
+
     const rowExpansionTemplate = (data) => {
     return (
         <div className="p-6 bg-gray-50 border-l-4 border-blue-200 rounded-b-md text-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen Ijazah</p>
-                    <Link href={`/api/filename/${data.ijazah}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen Ijazah : 
+                        <select defaultValue={data.status_ijazah} onChange={(e) => handleUpdateStatus(data.id_pendaftaran, e.target.value, 'ijazah')}>
+                            <option value={1}>Valid</option>
+                            <option value={0}>Tidak Valid</option>
+                        </select>
+                    </p>
+                    <Link href={`/api/filename/${data.ijazah}`} target='_blank' className='text-blue-700 underline'>ijazah.pdf</Link>                   
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen SKHU</p>
-                    <Link href={`/api/filename/${data.skhu}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen SKHU : </p>
+                    <Link href={`/api/filename/${data.skhu}`} target='_blank' className='text-blue-700 underline'>skhu.pdf</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen Nilai Rapot</p>
-                    <Link href={`/api/filename/${data.nilai_rapot}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen Nilai Rapot : 
+                        <select defaultValue={data.status_rapot} onChange={(e) => handleUpdateStatus(data.id_pendaftaran, e.target.value, 'rapot')}>
+                            <option value={1}>Valid</option>
+                            <option value={0}>Tidak Valid</option>
+                        </select>
+                    </p>
+                    <Link href={`/api/filename/${data.nilai_rapot}`} target='_blank' className='text-blue-700 underline'>rapot.pdf</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen Sertifikat</p>
-                    <Link href={`/api/filename/${data.sertifikat}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen Sertifikat : </p>
+                    <Link href={`/api/filename/${data.sertifikat}`} target='_blank' className='text-blue-700 underline'>sertifikat.pdf</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen KTP</p>
-                    <Link href={`/api/filename/${data.ktp}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen KTP : 
+                        <select defaultValue={data.status_ktp} onChange={(e) => handleUpdateStatus(data.id_pendaftaran, e.target.value, 'ktp')}>
+                            <option value={1}>Valid</option>
+                            <option value={0}>Tidak Valid</option>
+                        </select>
+                    </p>
+                    <Link href={`/api/filename/${data.ktp}`} target='_blank' className='text-blue-700 underline'>ktp.pdf</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen KK</p>
-                    <Link href={`/api/filename/${data.kk}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen KK : 
+                        <select defaultValue={data.status_kk} onChange={(e) => handleUpdateStatus(data.id_pendaftaran, e.target.value, 'kk')}>
+                            <option value={1}>Valid</option>
+                            <option value={0}>Tidak Valid</option>
+                        </select>
+                    </p>
+                    <Link href={`/api/filename/${data.kk}`} target='_blank' className='text-blue-700 underline'>kk.pdf</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Foto</p>
-                    <Link href={`/api/filename/${data.foto}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Foto : </p>
+                    <Link href={`/api/filename/${data.foto}`} target='_blank' className='text-blue-700 underline'>foto</Link>
                 </div>
                 <div>
-                    <p className="font-semibold text-gray-700">Dokumen Lain</p>
-                    <Link href={`/api/filename/${data.dokumen_lain}`} target='_blank' className='text-blue-700 underline'>click</Link>
+                    <p className="font-semibold text-gray-700">Dokumen Lain : </p>
+                    <Link href={`/api/filename/${data.dokumen_lain}`} target='_blank' className='text-blue-700 underline'>doc.pdf</Link>
                 </div>
             </div>
         </div>

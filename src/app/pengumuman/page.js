@@ -1,9 +1,11 @@
 import React from 'react'
-import DaftarPengumuman from '../components/pengumuman/DaftarPengumuman'
 import NavbarComponent from '../components/Navbar'
 import Footer from '../components/Footer'
-import Banner from '../components/pendaftaran/Banner'
-import NavigatingInfo from '../components/pengumuman/NavigatingInfo'
+import dynamic from 'next/dynamic'
+
+const NavigatingInfo = dynamic(() => import('../components/pengumuman/NavigatingInfo'))
+const DaftarPengumuman = dynamic(() => import('../components/pengumuman/DaftarPengumuman'))
+const Banner = dynamic(() => import('../components/pendaftaran/Banner'))
 
 export default function PengumumanPage() {
   return (

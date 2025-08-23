@@ -11,7 +11,7 @@ async function handler(req, res) {
             return res.status(400).json({ message: 'ID diperlukan untuk memperbarui data' });
         }
         try {
-            const [result] = await connect.query('select * from users where id = ?', [id])
+            const [result] = await connect.query('SELECT users.*, prodi.nama_prodi, prodi.jenjang, angkatan.tahun_angkatan AS tahun_angkatan FROM users LEFT JOIN prodi ON users.id_prodi = prodi.id_prodi LEFT JOIN angkatan ON users.id_angkatan = angkatan.id_angkatan WHERE id = ?', [id])
             if (result.length === 0) {
                 return res.status(404).json({ message: "Data tidak ditemukan" });
             }
